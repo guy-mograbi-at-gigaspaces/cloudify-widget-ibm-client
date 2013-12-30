@@ -23,7 +23,7 @@ To use a private configuration file:
   - `mkdir conf; cd conf; mkdir dev; cd dev`
   - `touch meConf.js`
   - Inside `meConf.js`, copy all properties of `privateConfiguration` object from `appConf.js` that are initialized
-  with `undefined` as custom properties of the `exports` RequireJS object, e.g.:
+  with `undefined` into new properties on the `exports` RequireJS object, e.g.:
 
       exports.authToken = "00000000-aaaa-bbbb-cccc-000000000000";
       exports.userId = "me";
