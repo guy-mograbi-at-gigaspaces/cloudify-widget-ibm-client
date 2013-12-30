@@ -21,9 +21,14 @@ configuration file (will be ignored in the VCS). By convention, all properties o
 To use a private configuration file:
 
   - `mkdir conf; cd conf; mkdir dev; cd dev`
-  - `echo -e "var private Configuration = {\n};" | tee meConf.js`
-  - Copy all properties of `privateConfiguration` object in `appConf.js` that are initialized with `undefined` into the
-    `privateConfiguration` object in `meConf.js`.
+  - `touch meConf.js`
+  - Inside `meConf.js`, copy all properties of `privateConfiguration` object from `appConf.js` that are initialized
+  with `undefined` as custom properties of the `exports` RequireJS object, e.g.:
+
+      exports.authToken = "00000000-aaaa-bbbb-cccc-000000000000";
+      exports.userId = "me";
+      exports.cookieSecret = "shhhhh";
+
 
 
 
