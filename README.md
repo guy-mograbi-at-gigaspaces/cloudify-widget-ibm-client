@@ -10,7 +10,7 @@ Make sure the following are available:
 
 ### Dependencies
 
-Install required dependencies by running `npm install` at the project root path.
+Install required modules by running `npm install`, and `bower install` at the project root path.
 
 ### Configuration
 
