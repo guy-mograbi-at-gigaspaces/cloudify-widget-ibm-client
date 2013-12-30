@@ -10,14 +10,13 @@ Make sure the following are available:
 
 ### Dependencies
 
-Install required dependencies by running `npm install`
+Install required dependencies by running `npm install` at the project root path.
 
 ### Configuration
 
-The application can be configured either by changing values in
-`/home/eliranm/dev/cloudify-widget-ibm-client/backend/appConf.js`, or by adding a private configuration file (will
-be ignored in the VCS). By convention, all values in `privateConfiguration` (inside `appConf.js`) that are initialized
-with `undefined` are mandatory.
+The application can be configured either by changing values in `backend/appConf.js`, or by adding a private
+configuration file (will be ignored in the VCS). By convention, all values in `privateConfiguration` (inside
+`appConf.js`) that are initialized with `undefined` are mandatory.
 
   - `mkdir conf && cd conf && mkdir dev && cd dev && touch meConf.js`
 
