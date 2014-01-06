@@ -147,6 +147,64 @@ app.use(function(err, req, res, next) {
  * Routes
  */
 
+app.get('/backend/widgetslist', function(request, response, next) {
+
+    var requestData = {};
+    requestData.request = request;
+    requestData.response = response;
+    requestData.options = {
+        hostname: conf.widgetServer,
+        path: '/api/user/'+ conf.userId +'/widgets?authToken=' + conf.authToken,
+        method: 'GET'
+    };
+
+    createRequest(requestData);
+});
+
+function createRequest(requestData) {
+    var callback = function(res) {
+        var data = '';
+        var result = '';
+
+        console.log('STATUS: ' + res.statusCode);
+
+        res.setEncoding('utf8');
+        res.on('data', function (chunk) {
+            result += chunk;
+        });
+
+        res.on('end', function () {
+            var jsonStr = JSON.stringify(result);
+            data = JSON.parse(jsonStr);
+
+            console.log('Request done, data: ' + data);
+
+            requestData.response.send(data);
+        });
+    };
+
+    var onError = function(e) {
+        console.log('problem with request: ' + e.message);
+        requestData.response.send(500);
+    };
+
+    var requestOptions = extend({
+        rejectUnauthorized: false,
+        requestCert: true,
+        agent: false
+    }, requestData.options);
+
+
+    var req = ajax.request(requestOptions, callback);
+    req.on('error', onError);
+
+    if (requestData.post_data !== undefined) {
+        req.write(requestData.post_data);
+    }
+
+    req.end();
+}
+
 
 /*
  * Status Code pages

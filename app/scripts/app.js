@@ -4,7 +4,7 @@ angular.module('cloudifyWidgetIbmClientApp', [])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/layout.html',
         controller: 'MainCtrl'
       })
       .otherwise({
