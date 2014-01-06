@@ -1,16 +1,21 @@
+<!--
+<nav>
+    <button type="button" ng-repeat="widget in data.widgetsList.data">{{ widget.productName }}</button>
+</nav>
+-->
 
 <!--
 <div id="wrap">
     <header class="navbar navbar-default navbar-static-top">
         <div class="container-fluid">
-            <div ng-include="'views/partials/header.html'" class="row-fluid"></div>
+            <div ng-include="'views/header.html'" class="row-fluid"></div>
         </div>
     </header>
     <div class="container-fluid">
         <div class="row-fluid">
-            <div ng-include="'views/partials/side.html'" class="span1 side left"></div>
-            <div ng-include="'views/partials/center.html'" class="span10 center"></div>
-            <div ng-include="'views/partials/side.html'" class="span1 side right"></div>
+            <div ng-include="'views/side.html'" class="span1 side left"></div>
+            <div ng-include="'views/center.html'" class="span10 center"></div>
+            <div ng-include="'views/side.html'" class="span1 side right"></div>
         </div>
     </div>
     <div id="push"></div>
@@ -18,25 +23,29 @@
 
 <footer id="footer">
     <div class="container-fluid">
-        <div ng-include="'views/partials/footer.html'" class="row-fluid"></div>
+        <div ng-include="'views/footer.html'" class="row-fluid"></div>
     </div>
 </footer>
 -->
 
-<div id="layout">
+<div id="layout" ng-controller="NavigationCtrl">
     <header id="header">
         <div class="container-fluid">
-            <div ng-include="'views/partials/header.html'" class="row-fluid"></div>
+            <div ng-include="'views/header.html'" class="row-fluid"></div>
         </div>
     </header>
-    <aside class="side left"></aside>
-    <aside class="other side right"></aside>
+    <aside ng-click="prev()" class="side left" ng-class="{ hidden: isStart() }"></aside>
+    <aside ng-click="next()" class="other side right" ng-class="{ hidden: isEnd() }"></aside>
     <div id="content">
-        <div ng-view></div>
+        <div ng-view id="main"></div>
     </div>
     <div id="fix"></div>
 </div>
-<footer id="footer"></footer>
+<footer id="footer">
+    <div class="container-fluid">
+        <div ng-include="'views/footer.html'" class="row-fluid"></div>
+    </div>
+</footer>
 
 
 

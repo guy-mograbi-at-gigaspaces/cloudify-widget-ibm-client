@@ -12,7 +12,7 @@ Table of contents
 
 /* default overrides */
 $textColor: #444;
-$bodyBackground: #f2f2f2;
+$bodyBackground: #f0f0f0;
 
 /* import main stylesheet */
 @import "bootstrap-sass/lib/bootstrap";
@@ -42,6 +42,17 @@ html, body, .full-height {
   height: 100%;
 }
 
+#header {
+  height: 130px;
+}
+#content {
+  padding: 0 $layoutSideWidth;
+}
+#fix {
+  height: 60px;
+  clear: both;
+}
+
 #layout {
   margin: 0 auto;
   min-width: 600px;
@@ -50,16 +61,6 @@ html, body, .full-height {
   &[id] { /* invisible to IE6 */
     height: auto;
     overflow: hidden;
-  }
-  #header {
-    height: 130px;
-  }
-  #content {
-    padding: 0 $layoutSideWidth;
-  }
-  #fix {
-    height: 60px;
-    clear: both;
   }
   .side {
     width: $layoutSideWidth;
@@ -102,7 +103,7 @@ html, body, .full-height {
     }
     &.softlayer {
       width: 256px;
-      background: url('../images/logo-softlayer-transparent.png') 0 56px no-repeat;
+      background: url('../images/logo-softlayer.png') 0 60px no-repeat;
     }
   }
 }
@@ -112,6 +113,7 @@ html, body, .full-height {
 }
 
 .side {
+  cursor: pointer;
   @include opacity(60);
   &:hover {
     @include opacity(100);
@@ -132,6 +134,19 @@ html, body, .full-height {
     right: 0;
     content: '\203a';
   }
+  &.hidden {
+    visibility: hidden;
+  }
+}
+
+#main {
+  position: absolute;
+  top: 153px;
+  bottom: 80px;
+  left: $layoutSideWidth;
+  right: $layoutSideWidth;
+  border: 1px solid #ccc;
+  background-color: #fff;
 }
 
 

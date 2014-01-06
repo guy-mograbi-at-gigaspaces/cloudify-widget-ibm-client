@@ -17,7 +17,4 @@ angular.module('cloudifyWidgetIbmClientApp')
 */
         })();
 
-        $scope.next = function () {
-            console.log('next!');
-        };
     });
