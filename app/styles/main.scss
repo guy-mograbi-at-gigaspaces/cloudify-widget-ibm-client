@@ -21,7 +21,7 @@ $bodyBackground: #f0f0f0;
 $darkGray: #444;
 $borderColor: #ccc;
 $softlayerRed: #b72e33;
-$layoutSideWidth: $fluidGridColumnWidth + $fluidGridGutterWidth;
+$layoutSideWidthPerc: $fluidGridColumnWidth + $fluidGridGutterWidth;
 
 /* mixins & functions */
 @mixin gs-calc($property, $args) {
@@ -39,6 +39,7 @@ $layoutSideWidth: $fluidGridColumnWidth + $fluidGridGutterWidth;
 }
 
 html, body, .full-height {
+  overflow: hidden;
   height: 100%;
 }
 
@@ -46,7 +47,7 @@ html, body, .full-height {
   height: 130px;
 }
 #content {
-  padding: 0 $layoutSideWidth;
+  padding: 0 $layoutSideWidthPerc;
 }
 #fix {
   height: 60px;
@@ -63,10 +64,11 @@ html, body, .full-height {
     overflow: hidden;
   }
   .side {
-    width: $layoutSideWidth;
+    width: $layoutSideWidthPerc;
     float: left;
     padding-bottom: 32000px;
     margin-bottom: -32000px;
+    //z-index: 9999;
   }
   .other {
     float: right;
@@ -115,13 +117,15 @@ html, body, .full-height {
 .side {
   cursor: pointer;
   @include opacity(60);
+  @include transition(all linear 0.1s);
   &:hover {
     @include opacity(100);
   }
   &:after {
     position: absolute;
+    z-index: 100;
     @include gs-calc("top", "50% + 22px");
-    width: $layoutSideWidth;
+    width: $layoutSideWidthPerc;
     text-align: center;
     font-size: 120px;
     color: #777;
@@ -134,19 +138,63 @@ html, body, .full-height {
     right: 0;
     content: '\203a';
   }
-  &.hidden {
-    visibility: hidden;
+  &.disabled {
+    cursor: default;
+    @include opacity(0);
   }
 }
 
-#main {
-  position: absolute;
-  top: 153px;
-  bottom: 80px;
-  left: $layoutSideWidth;
-  right: $layoutSideWidth;
-  border: 1px solid #ccc;
-  background-color: #fff;
+#content {
+  .main {
+    position: absolute;
+    top: 153px;
+    bottom: 80px;
+    left: $layoutSideWidthPerc;
+    right: $layoutSideWidthPerc;
+    border: 1px solid #ccc;
+    background-color: #fff;
+
+    /* view slide animation */
+    &.ng-enter, &.ng-leave {
+      @include transition(all cubic-bezier(0.250, 0.460, 0.450, 0.940) .3s);
+    }
+    &.ng-enter {
+      @include opacity(0);
+    }
+    &.ng-enter.ng-enter-active {
+      @include opacity(100);
+    }
+    &.ng-leave {
+      @include opacity(100);
+    }
+    &.ng-leave.ng-leave-active {
+      @include opacity(0);
+    }
+  }
+  &.next {
+    .main {
+      &.ng-enter {
+        left: 100% - $layoutSideWidthPerc;
+        right: -100% + $layoutSideWidthPerc;
+      }
+      &.ng-enter.ng-enter-active {
+        left: $layoutSideWidthPerc;
+        right: $layoutSideWidthPerc;
+      }
+    }
+  }
+  &.prev {
+    .main {
+      &.ng-enter {
+        left: -100% + $layoutSideWidthPerc;
+        right: 100% - $layoutSideWidthPerc;
+      }
+      &.ng-enter.ng-enter-active {
+        left: $layoutSideWidthPerc;
+        right: $layoutSideWidthPerc;
+      }
+    }
+  }
 }
 
 
@@ -185,17 +233,5 @@ nav {
       }
     }
   }
-}
-*/
-
-
-/*
-dl dt, dl dd {
-  display: inline;
-  float: left;
-}
-
-dl dt {
-  clear: left;
 }
 */

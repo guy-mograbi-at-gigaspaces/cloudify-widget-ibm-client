@@ -10,13 +10,11 @@
     "angular-route": "~1.2.8",
     "angular-resource": "~1.2.8",
     "angular-cookies": "~1.2.8",
-    "angular-sanitize": "~1.2.8"
+    "angular-sanitize": "~1.2.8",
+    "angular-animate": "~1.2.8"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.8",
     "angular-scenario": "~1.2.8"
-  },
-  "resolutions": {
-    "angular": "1.2.8-build.2076+sha.6f6cb5c"
   }
 }

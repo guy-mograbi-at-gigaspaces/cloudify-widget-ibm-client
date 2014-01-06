@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('cloudifyWidgetIbmClientApp', [
-        'ngRoute'
+        'ngRoute',
+        'ngAnimate'
     ])
     .config(['$routeProvider', '$locationProvider',
         function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: '/views/welcome.html',
-                controller: 'MainCtrl'
+                controller: 'MainCtrl' // TODO ?
             })
             .when('/step/:index', {
                 templateUrl: function (params) {
@@ -17,7 +18,7 @@ angular.module('cloudifyWidgetIbmClientApp', [
                     }
                     return '/views/step-' + params.index + '.html';
                 },
-                controller: 'MainCtrl'
+                controller: 'MainCtrl' // TODO ?
             })
             .otherwise({
                 redirectTo: '/'

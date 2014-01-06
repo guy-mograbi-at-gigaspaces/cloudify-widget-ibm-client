@@ -34,10 +34,10 @@
             <div ng-include="'views/header.html'" class="row-fluid"></div>
         </div>
     </header>
-    <aside ng-click="prev()" class="side left" ng-class="{ hidden: isStart() }"></aside>
-    <aside ng-click="next()" class="other side right" ng-class="{ hidden: isEnd() }"></aside>
-    <div id="content">
-        <div ng-view id="main"></div>
+    <aside ng-click="prev()" class="side left" ng-class="{ disabled: isStart() }"></aside>
+    <aside ng-click="next()" class="other side right" ng-class="{ disabled: isEnd() }"></aside>
+    <div id="content" ng-class="data.going">
+        <div ng-view class="main"></div>
     </div>
     <div id="fix"></div>
 </div>
