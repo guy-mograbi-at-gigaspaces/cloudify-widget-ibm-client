@@ -10,18 +10,22 @@ Table of contents
 
 */
 
+
+@import "fonts";
+
+
 /* 1. sass definitions */
 
 /* default overrides */
 $textColor: #777;
 $bodyBackground: #f0f0f0;
 $baseFontSize: 20px;
-$baseFontFamily: tahoma, sans-serif;
+$baseFontFamily: proxima_novalight, arial, tahoma, sans-serif;
 $baseLineHeight: 1.4;
 $linkColor: #555;
 $linkColorHover: #b72e33;
 
-/* import main stylesheet */
+/* import bootstrap main stylesheet */
 @import "bootstrap-sass/lib/bootstrap";
 
 /* custom variables */
@@ -157,7 +161,7 @@ html, body, .full-height {
 }
 
 #footer {
-  background-color: $darkGray;
+  background-color: $textColor;
 }
 
 .side {
@@ -176,6 +180,7 @@ html, body, .full-height {
     line-height: 0;
     text-align: center;
     font-size: 120px;
+    font-family: arial;
     color: #777;
   }
   &.left:after {
@@ -289,7 +294,7 @@ html, body, .full-height {
       display: block;
       width: 60px;
       height: 60px;
-      margin: 40px 60px;
+      margin: 30px 60px 50px;
       outline: none;
       @include native-hidden();
       @include opacity(70);
