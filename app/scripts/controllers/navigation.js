@@ -7,7 +7,8 @@ angular.module('cloudifyWidgetIbmClientApp')
                 step: 0,
                 min: 0,
                 max: 2,
-                going: 'next'
+                going: 'next',
+                breadcrumb: []
             };
 
             $scope.isStart = function () {
@@ -28,12 +29,18 @@ angular.module('cloudifyWidgetIbmClientApp')
                 if (boundFn()) {
                     return false;
                 }
+                // TODO extract breadcrumb to directive
                 if (dir >= 0) {
                     $scope.data.going = 'next';
                     $scope.data.step++;
+                    $scope.data.breadcrumb.push({
+                        name: 'step ' + $scope.data.step,
+                        path: $scope.data.step
+                    });
                 } else {
                     $scope.data.going = 'prev';
                     $scope.data.step--;
+                    $scope.data.breadcrumb.pop();
                 }
                 return $location.path('step/' + $scope.data.step);
             };

@@ -1,11 +1,8 @@
 'use strict';
 
-angular.module('cloudifyWidgetIbmClientApp', [
-        'ngRoute',
-        'ngAnimate'
-    ])
-    .config(['$routeProvider', '$locationProvider',
-        function ($routeProvider, $locationProvider) {
+angular.module('cloudifyWidgetIbmClientApp', ['ngRoute', 'ngAnimate', 'ngResource'])
+    .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+
         $routeProvider
             .when('/', {
                 templateUrl: '/views/welcome.html',
@@ -23,6 +20,7 @@ angular.module('cloudifyWidgetIbmClientApp', [
             .otherwise({
                 redirectTo: '/'
             });
+
         $locationProvider.html5Mode(true);
     }])
     .run(['$route', angular.noop]);

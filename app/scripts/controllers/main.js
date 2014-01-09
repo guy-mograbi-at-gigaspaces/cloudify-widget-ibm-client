@@ -1,20 +1,18 @@
 'use strict';
 
 angular.module('cloudifyWidgetIbmClientApp')
-    .controller('MainCtrl', function ($scope, $http) {
+    .controller('MainCtrl', ['$scope', 'Backend', function ($scope, Backend) {
+
         $scope.data = {};
-        $scope.data.widgetsList = (function () {
+        // TODO get widgets list only once. where?
+        $scope.data.widgetsList = Backend.listWidgets();
 
-            // TODO use $resource instead of $http
-            return $http.get('/backend/widgetslist');
-//            return $http.get('http://localhost:9001/backend/widgetslist');
+        var recipeNameToClassnameMap = {
+            'MySQL': 'mysql', 'JBoss': 'jboss', 'Memcached': 'memcached', 'Play Framework': 'play', 'Vertx': 'vertx', 'Drupal': 'drupal', 'MongoDB': 'mongodb', 'Petclinic-Simple': 'petclinic', 'Couchbase': 'couchbase', 'Cassandra': 'cassandra', 'ElasticSearch': 'elastic-search'
+        };
 
-            // TODO use interceptor instead of then
-/*
-                .then(function (result) {
-                    return result.data;
-                });
-*/
-        })();
-
-    });
+        $scope.widgetImage = function (productName) {
+            return recipeNameToClassnameMap[productName] || '';
+        };
+        
+    }]);

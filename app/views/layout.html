@@ -1,8 +1,3 @@
-<!--
-<nav>
-    <button type="button" ng-repeat="widget in data.widgetsList.data">{{ widget.productName }}</button>
-</nav>
--->
 
 <!--
 <div id="wrap">
@@ -37,6 +32,7 @@
     <aside ng-click="prev()" class="side left" ng-class="{ disabled: isStart() }"></aside>
     <aside ng-click="next()" class="other side right" ng-class="{ disabled: isEnd() }"></aside>
     <div id="content" ng-class="data.going">
+        <div ng-include="'views/breadcrumb.html'"></div>
         <div ng-view class="main"></div>
     </div>
     <div id="fix"></div>
