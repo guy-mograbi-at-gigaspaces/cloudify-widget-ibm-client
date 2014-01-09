@@ -11,8 +11,10 @@ angular.module('cloudifyWidgetIbmClientApp')
             'MySQL': 'mysql', 'JBoss': 'jboss', 'Memcached': 'memcached', 'Play Framework': 'play', 'Vertx': 'vertx', 'Drupal': 'drupal', 'MongoDB': 'mongodb', 'Petclinic-Simple': 'petclinic', 'Couchbase': 'couchbase', 'Cassandra': 'cassandra', 'ElasticSearch': 'elastic-search'
         };
 
-        $scope.widgetImage = function (productName) {
+        $scope.widgetClassname = function (productName) {
             return recipeNameToClassnameMap[productName] || '';
         };
-        
+
+//        $scope.
+
     }]);
