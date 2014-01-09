@@ -1,29 +1,364 @@
+
+/*
+
+Table of contents
+1. sass definitions
+2. helper classes
+3. baseline styles
+4. layout
+5. custom styles
+
+*/
+
+/* 1. sass definitions */
+
+/* default overrides */
+$textColor: #777;
+$bodyBackground: #f0f0f0;
+$baseFontSize: 20px;
+$baseFontFamily: tahoma, sans-serif;
+$baseLineHeight: 1.4;
+$linkColor: #555;
+$linkColorHover: #b72e33;
+
+/* import main stylesheet */
 @import "bootstrap-sass/lib/bootstrap";
 
-/* Put your CSS here */
-html, body {
-  margin: 20px;
+/* custom variables */
+$darkGray: #444;
+$borderColor: #ccc;
+$softlayerRed: #b72e33;
+$layoutSideWidthPerc: $fluidGridColumnWidth + $fluidGridGutterWidth;
+$headerBorderHeight: 7px;
+
+/* mixins & functions */
+@mixin gs-calc($property, $args) {
+  #{$property}: -webkit-calc(#{$args});
+  #{$property}: -moz-calc(#{$args});
+  #{$property}: calc(#{$args});
 }
 
-body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
+@mixin native-hidden {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
+@mixin grayscale($percentage) {
+  -webkit-filter: grayscale($percentage);
+  filter: grayscale($percentage);
 }
 
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
+
+/* 2. helper classes */
+
+
+
+/* 3. baseline styles */
+
+h1,h2,h3,h4,h5,h6 {
+  text-align: center;
+  line-height: 2.4;
+  font-weight: normal;
 }
+h1 {
+  font-size: 160%;
+}
+
+
+
+/* 4. layout */
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html, body, .full-height {
+  overflow: hidden;
+  height: 100%;
+}
+
+#header {
+  height: 130px;
+}
+#content {
+  padding: 0 $layoutSideWidthPerc;
+}
+#fix {
+  height: 60px;
+  clear: both;
+}
+
+#layout {
+  margin: 0 auto;
+  min-width: 600px;
+  min-height: 100%;
+  height: 100%;
+  &[id] { /* invisible to IE6 */
+    height: auto;
+    overflow: hidden;
+  }
+  .side {
+    width: $layoutSideWidthPerc;
+    float: left;
+    padding-bottom: 32000px;
+    margin-bottom: -32000px;
+  }
+  .other {
+    float: right;
+  }
+}
+
+#footer {
+  height: 60px;
+  margin-top: -60px;
+  &[id] { /* layer order, invisible to IE6 */
+    z-index: 100;
+    position: relative;
+  }
+}
+
+
+/* 5. custom styles */
+
+#header {
+  border-top: $headerBorderHeight solid $softlayerRed;
+  background-color: $darkGray;
+  .logo-box {
+    width: 560px;
+    margin: 0 auto;
+
+    .logo {
+      position: relative;
+      z-index: 1;
+      float: left;
+      height: 130px;
+      margin-left: 60px;
+      &:not(:first-child):before {
+        content: '\2022';
+        position: absolute;
+        top: 75px;
+        left: -38px;
+        line-height: 0;
+        font-size: 30px;
+        color: $softlayerRed;
+      }
+      &.cloudify {
+        width: 177px;
+        background: url('../images/cloudify-logo.svg') 0 12px no-repeat;
+      }
+      &.softlayer {
+        width: 256px;
+        background: url('../images/softlayer-logo.png') 0 60px no-repeat;
+      }
+    }
+  }
+}
+
+#footer {
+  background-color: $darkGray;
+}
+
+.side {
+  cursor: pointer;
+  @include opacity(60);
+  @include transition(all linear 0.1s);
+  &:hover {
+    @include opacity(100);
+  }
+  &:after {
+    position: absolute;
+    z-index: 100;
+    @include gs-calc("top", "50% + 22px");
+    width: $layoutSideWidthPerc;
+    height: 0;
+    line-height: 0;
+    text-align: center;
+    font-size: 120px;
+    color: #777;
+  }
+  &.left:after {
+    left: 0;
+    content: '\2039';
+  }
+  &.right:after {
+    right: 0;
+    content: '\203a';
+  }
+  &.disabled {
+    cursor: default;
+    @include opacity(0);
+  }
+}
+
+#content {
+
+  // TODO use customized bootstrap breadcrumb ?
+  .trail {
+    ul {
+      width: 100%;
+      li {
+        display: inline;
+        padding: 0;
+        list-style-type: none;
+        line-height: 2.4;
+        font-style: italic;
+        color: #777;
+        &:not(:last-child):after {
+          content: ' / ';
+        }
+      }
+    }
+  }
+  .main {
+    position: absolute;
+    top: 180px + $headerBorderHeight;
+    bottom: 90px;
+    left: $layoutSideWidthPerc;
+    right: $layoutSideWidthPerc;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    padding: 1em;
+    background-color: #fff;
+
+    > section > h1 {
+      line-height: 3;
+    }
+
+    /* view slide animation */
+    &.ng-enter, &.ng-leave {
+      @include transition(all cubic-bezier(0.250, 0.460, 0.450, 0.940) .3s);
+    }
+    &.ng-enter {
+      @include opacity(0);
+    }
+    &.ng-enter.ng-enter-active {
+      @include opacity(100);
+    }
+    &.ng-leave {
+      @include opacity(100);
+    }
+    &.ng-leave.ng-leave-active {
+      @include opacity(0);
+    }
+  }
+  &.next {
+    .main {
+      &.ng-enter {
+        left: 100% - $layoutSideWidthPerc;
+        right: -100% + $layoutSideWidthPerc;
+      }
+      &.ng-enter.ng-enter-active {
+        left: $layoutSideWidthPerc;
+        right: $layoutSideWidthPerc;
+      }
+    }
+  }
+  &.prev {
+    .main {
+      &.ng-enter {
+        left: -100% + $layoutSideWidthPerc;
+        right: 100% - $layoutSideWidthPerc;
+      }
+      &.ng-enter.ng-enter-active {
+        left: $layoutSideWidthPerc;
+        right: $layoutSideWidthPerc;
+      }
+    }
+  }
+}
+
+.recipe-list {
+  margin: 0;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    margin: 0;
+    padding: 28px;
+    list-style-type: none;
+
+    label {
+      padding-top: 14px;
+      background-color: #fafafa;
+      border: 1px solid $borderColor;
+    }
+    input[type="radio"] {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 60px;
+      margin: 40px 60px;
+      outline: none;
+      @include native-hidden();
+      @include opacity(70);
+
+      &:not(:checked) {
+        @include grayscale(100%);
+      }
+      &:checked {
+        //content: url('http://placekitten.com/100/120');
+      }
+      &:hover, &:checked {
+        @include opacity(100);
+      }
+
+      &.cassandra {
+        content: url('../images/cassandra.jpg');
+      }
+      &.couchbase {
+        content: url('../images/couchbase.png');
+      }
+      &.drupal {
+        content: url('../images/drupal.jpg');
+      }
+      &.elastic-search {
+        content: url('../images/elastic-search.jpg');
+      }
+      &.jboss {
+        content: url('../images/jboss.png');
+      }
+      &.memcached {
+        content: url('../images/memcached.png');
+      }
+      &.mongodb {
+        content: url('../images/mongodb.png');
+      }
+      &.mysql {
+        content: url('../images/mysql.png');
+      }
+      &.petclinic {
+        content: url('../images/petclinic.png');
+      }
+      &.play {
+        content: url('../images/play.png');
+      }
+      &.vertx {
+        content: url('../images/vertx.jpg');
+      }
+    }
+  }
+}
+
+
+section {
+
+  &.welcome {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  &.details {
+    form {
+      width: 500px;
+      margin: 0 auto;
+      input {
+        min-height: 50px;
+        height: 50px;
+        margin: 10px 0 20px;
+      }
+    }
+  }
+}
+
