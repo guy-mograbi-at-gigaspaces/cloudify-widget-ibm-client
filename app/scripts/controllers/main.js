@@ -15,6 +15,11 @@ angular.module('cloudifyWidgetIbmClientApp')
             return recipeNameToClassnameMap[productName] || '';
         };
 
-//        $scope.
+
+
+
+        // move to user-details controller:
+
+        $scope.credentialsEnabled = false;
 
     }]);

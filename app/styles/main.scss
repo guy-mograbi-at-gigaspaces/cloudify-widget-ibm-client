@@ -1,26 +1,28 @@
 /*
 
 Table of contents
-1. sass definitions
-2. helper classes
-3. baseline styles
-4. layout
-5. custom styles
+  1. sass definitions
+  2. helper classes
+  3. baseline styles
+  4. layout
+  5. custom styles
 
 */
 
 @import "fonts";
 
-/* 1. sass definitions */
+/* 1. sass definitions
+-----------------------------------*/
 
-/* default overrides */
-$textColor: #777;
-$bodyBackground: #f0f0f0;
-$baseFontSize: 20px;
-$baseFontFamily: proxima_novalight, arial, tahoma, sans-serif;
-$baseLineHeight: 1.5;
-$linkColor: #555;
-$linkColorHover: #b72e33;
+/* default variables overrides */
+$text-color: #777;
+$headings-color: #777;
+$link-color: #555;
+$link-hover-color: #b72e33;
+$body-bg: #f0f0f0;
+$font-size-base: 20px;
+$font-family-base: proxima_novalight, arial, tahoma, sans-serif;
+$line-height-base: 1.5;
 
 /* import bootstrap main stylesheet */
 @import "bootstrap-sass/lib/bootstrap";
@@ -29,7 +31,7 @@ $linkColorHover: #b72e33;
 $darkGray: #444;
 $borderColor: #ccc;
 $softlayerRed: #b72e33;
-$layoutSideWidthPerc: $fluidGridColumnWidth + $fluidGridGutterWidth;
+$layoutSideWidthPerc: 100% / $grid-columns;
 $headerBorderHeight: 7px;
 
 /* mixins & functions */
@@ -50,18 +52,62 @@ $headerBorderHeight: 7px;
   filter: grayscale($percentage);
 }
 
-/* 2. helper classes */
+/* default rules overrides */
 
-/* 3. baseline styles */
+input {
+  &[type="text"],
+  &[type="password"] {
+    min-height: 50px;
+    height: 50px;
+    margin: 10px 0 20px;
+    padding: 0 .7em;
+    &:focus {
+      border-color: rgba(183, 46, 51, .8);
+      @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(183, 46, 51, .6));
+    }
+  }
+  &[type="checkbox"] {
+    margin-top: 9px;
+  }
+}
+
+legend {
+  line-height: 30px;
+  font-size: 1.2em;
+  color: $text-color;
+}
+
+fieldset {
+  border-top: 1px solid $borderColor;
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
+label {
+  font-weight: normal;
+}
+
+
+/* 2. helper classes
+-----------------------------------*/
+
+
+
+/* 3. baseline styles
+-----------------------------------*/
 
 h1, h2, h3, h4, h5, h6 {
   text-align: center;
-  line-height: 2.4;
+  line-height: 2;
   font-weight: normal;
 }
 
 h1 {
   font-size: 160%;
+}
+
+[disabled="disabled"] {
+  @include opacity(.5);
 }
 
 /* 4. layout */
@@ -120,7 +166,8 @@ html, body, .full-height {
   }
 }
 
-/* 5. custom styles */
+/* 5. custom styles
+-----------------------------------*/
 
 #header {
   border-top: $headerBorderHeight solid $softlayerRed;
@@ -157,15 +204,15 @@ html, body, .full-height {
 }
 
 #footer {
-  background-color: $textColor;
+  background-color: $text-color;
 }
 
 .side {
   cursor: pointer;
-  @include opacity(60);
+  @include opacity(.6);
   @include transition(all linear 0.1s);
   &:hover {
-    @include opacity(100);
+    @include opacity(1);
   }
   &:after {
     position: absolute;
@@ -224,10 +271,6 @@ html, body, .full-height {
     padding: 1em;
     background-color: #fff;
 
-    > section > h1 {
-      line-height: 3;
-    }
-
     /* view slide animation */
     &.ng-enter, &.ng-leave {
       @include transition(all cubic-bezier(0.250, 0.460, 0.450, 0.940) .3s);
@@ -236,10 +279,10 @@ html, body, .full-height {
       @include opacity(0);
     }
     &.ng-enter.ng-enter-active {
-      @include opacity(100);
+      @include opacity(1);
     }
     &.ng-leave {
-      @include opacity(100);
+      @include opacity(1);
     }
     &.ng-leave.ng-leave-active {
       @include opacity(0);
@@ -293,17 +336,19 @@ section {
         background-color: #fafafa;
 
         label {
-          margin: 15px 0 0;
+          margin: 0;
+          padding: 15px 0 0;
         }
+        // TODO adapt for gecko! the :checked content image toggle only works for webkit!
         input[type="radio"] {
           content: '';
           display: block;
           width: 60px;
           height: 60px;
-          margin: 30px 60px 10px;
+          margin: 20px 60px;
           outline: none;
           @include native-hidden();
-          @include opacity(70);
+          @include opacity(.7);
 
           &:not(:checked) {
             @include grayscale(100%);
@@ -311,7 +356,7 @@ section {
           &:checked {
           }
           &:hover, &:checked {
-            @include opacity(100);
+            @include opacity(1);
           }
 
           /* product images */
@@ -355,7 +400,7 @@ section {
           a {
             float: right;
             line-height: 25px;
-            font-size: .7em;
+            font-size: .8em;
             &:after {
               content: ' \2197';
               line-height: 25px;
@@ -372,12 +417,6 @@ section {
       max-width: 600px;
       width: 50%;
       margin: 0 auto;
-
-      input {
-        min-height: 50px;
-        height: 50px;
-        margin: 10px 0 20px;
-      }
     }
   }
 }
