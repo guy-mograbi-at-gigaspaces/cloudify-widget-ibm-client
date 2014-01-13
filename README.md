@@ -7,7 +7,7 @@
 Make sure the following are available:
 
 - Ruby and RubyGems (recommended via [RVM][1])
-- [NodeJS (with NPM)][2]
+- [NodeJS][2] (with NPM)
 
 ### Dependencies
 
