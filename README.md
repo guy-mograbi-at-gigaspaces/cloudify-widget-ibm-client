@@ -6,7 +6,8 @@
 
 Make sure the following are available:
 
-- [NodeJS (with NPM)][1]
+- Ruby and RubyGems (recommended via [RVM][1])
+- [NodeJS (with NPM)][2]
 
 ### Dependencies
 
@@ -34,4 +35,5 @@ To use a private configuration file:
 
 
 
-[1]: http://nodejs.org/
+[1]: https://rvm.io/rvm/install
+[2]: http://nodejs.org/
