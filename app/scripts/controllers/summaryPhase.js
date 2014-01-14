@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('cloudifyWidgetIbmClientApp')
-    .controller('MainCtrl', ['$scope', function ($scope) {
+    .controller('SummaryPhaseCtrl', function ($scope) {
 
         $scope.model = {};
 
-    }]);
+    });

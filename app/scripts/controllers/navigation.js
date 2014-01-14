@@ -1,22 +1,22 @@
 'use strict';
 
 angular.module('cloudifyWidgetIbmClientApp')
-    .controller('NavigationCtrl', ['$scope', '$location', function ($scope, $location) {
+    .controller('NavigationCtrl', ['$scope', '$location', 'GsConstants', function ($scope, $location, GsConstants) {
 
-            $scope.data = {
+            $scope.model = {
                 step: 0,
                 min: 0,
-                max: 2,
+                max: GsConstants.routes.length - 1,
                 going: 'next',
                 breadcrumb: []
             };
 
             $scope.isStart = function () {
-                return $scope.data.step <= $scope.data.min;
+                return $scope.model.step <= $scope.model.min;
             };
 
             $scope.isEnd = function () {
-                return $scope.data.step >= $scope.data.max;
+                return $scope.model.step >= $scope.model.max;
             };
 
             /**
@@ -31,18 +31,18 @@ angular.module('cloudifyWidgetIbmClientApp')
                 }
                 // TODO extract breadcrumb to directive
                 if (dir >= 0) {
-                    $scope.data.going = 'next';
-                    $scope.data.step++;
-                    $scope.data.breadcrumb.push({
-                        name: 'step ' + $scope.data.step,
-                        path: $scope.data.step
+                    $scope.model.going = 'next';
+                    $scope.model.step++;
+                    $scope.model.breadcrumb.push({
+                        name: 'step ' + $scope.model.step,
+                        path: $scope.model.step
                     });
                 } else {
-                    $scope.data.going = 'prev';
-                    $scope.data.step--;
-                    $scope.data.breadcrumb.pop();
+                    $scope.model.going = 'prev';
+                    $scope.model.step--;
+                    $scope.model.breadcrumb.pop();
                 }
-                return $location.path('step/' + $scope.data.step);
+                return $location.path('step/' + $scope.model.step);
             };
 
             $scope.prev = function () {

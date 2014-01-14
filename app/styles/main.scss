@@ -20,6 +20,7 @@ $headings-color: #777;
 $link-color: #555;
 $link-hover-color: #b72e33;
 $body-bg: #f0f0f0;
+$input-border-focus: #b72e33;
 $font-size-base: 20px;
 $font-family-base: proxima_novalight, arial, tahoma, sans-serif;
 $line-height-base: 1.5;
@@ -33,48 +34,38 @@ $borderColor: #ccc;
 $softlayerRed: #b72e33;
 $layoutSideWidthPerc: 100% / $grid-columns;
 $headerBorderHeight: 7px;
+$footerHeight: 60px;
 
 /* mixins & functions */
-@mixin gs-calc($property, $args) {
+@mixin gsCalc($property, $args) {
   #{$property}: -webkit-calc(#{$args});
   #{$property}: -moz-calc(#{$args});
   #{$property}: calc(#{$args});
 }
 
-@mixin native-hidden {
+@mixin gsNativeHidden {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-@mixin grayscale($percentage) {
-  -webkit-filter: grayscale($percentage);
-  filter: grayscale($percentage);
+@mixin gsGrayscale() {
+  filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+  filter: gray;
+  -webkit-filter: grayscale(100%);
+}
+
+@mixin gsGrayscaleDisable() {
+  filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
+  -webkit-filter: grayscale(0%);
 }
 
 /* default rules overrides */
 
 input {
-  &[type="text"],
-  &[type="password"] {
-    min-height: 50px;
-    height: 50px;
-    margin: 10px 0 20px;
-    padding: 0 .7em;
-    &:focus {
-      border-color: rgba(183, 46, 51, .8);
-      @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(183, 46, 51, .6));
-    }
-  }
   &[type="checkbox"] {
     margin-top: 9px;
   }
-}
-
-legend {
-  line-height: 30px;
-  font-size: 1.2em;
-  color: $text-color;
 }
 
 fieldset {
@@ -97,8 +88,8 @@ label {
 -----------------------------------*/
 
 h1, h2, h3, h4, h5, h6 {
+  margin: .7em 0;
   text-align: center;
-  line-height: 2;
   font-weight: normal;
 }
 
@@ -110,12 +101,11 @@ h1 {
   @include opacity(.5);
 }
 
-/* 4. layout */
 
-* {
-  padding: 0;
-  margin: 0;
-}
+/* 4. layout
+-----------------------------------*/
+
+/* holy grail layout */
 
 html, body, .full-height {
   overflow: hidden;
@@ -131,7 +121,7 @@ html, body, .full-height {
 }
 
 #fix {
-  height: 60px;
+  height: $footerHeight;
   clear: both;
 }
 
@@ -157,14 +147,27 @@ html, body, .full-height {
 }
 
 #footer {
-  height: 60px;
-  margin-top: -60px;
+  height: $footerHeight;
+  margin-top: $footerHeight * -1;
   &[id] {
     /* layer order, invisible to IE6 */
     z-index: 100;
     position: relative;
   }
 }
+
+/* custom layout adaptations */
+
+#content {
+  .main {
+    position: absolute;
+    top: 180px + $headerBorderHeight;
+    bottom: $footerHeight + 30px;
+    left: $layoutSideWidthPerc;
+    right: $layoutSideWidthPerc;
+  }
+}
+
 
 /* 5. custom styles
 -----------------------------------*/
@@ -204,7 +207,12 @@ html, body, .full-height {
 }
 
 #footer {
+  padding: 1em;
+  font-size: 12px;
   background-color: $text-color;
+  * {
+    color: $borderColor;
+  }
 }
 
 .side {
@@ -217,7 +225,7 @@ html, body, .full-height {
   &:after {
     position: absolute;
     z-index: 100;
-    @include gs-calc("top", "50% + 22px");
+    @include gsCalc("top", "50% + 22px");
     width: $layoutSideWidthPerc;
     height: 0;
     line-height: 0;
@@ -260,11 +268,6 @@ html, body, .full-height {
     }
   }
   .main {
-    position: absolute;
-    top: 180px + $headerBorderHeight;
-    bottom: 90px;
-    left: $layoutSideWidthPerc;
-    right: $layoutSideWidthPerc;
     overflow-x: hidden;
     overflow-y: auto;
     border: 1px solid #ccc;
@@ -335,75 +338,45 @@ section {
         border: 1px solid $borderColor;
         background-color: #fafafa;
 
+        label, input {
+          cursor: pointer;
+        }
         label {
           margin: 0;
-          padding: 15px 0 0;
-        }
-        // TODO adapt for gecko! the :checked content image toggle only works for webkit!
-        input[type="radio"] {
-          content: '';
-          display: block;
-          width: 60px;
-          height: 60px;
-          margin: 20px 60px;
-          outline: none;
-          @include native-hidden();
-          @include opacity(.7);
+          padding: 15px 0 5px;
+          img {
+            display: block;
+            width: 60px;
+            height: 60px;
+            margin: 20px 60px;
+            @include gsGrayscale();
+            @include opacity(.7);
+          }
+          input[type="radio"] {
+            position: absolute;
+            visibility: hidden;
+            @include gsNativeHidden();
+            outline: 0 none;
 
-          &:not(:checked) {
-            @include grayscale(100%);
+            &:checked ~ img {
+              @include gsGrayscaleDisable();
+            }
+            &:hover ~ img,
+            &:checked ~ img {
+              @include opacity(1);
+            }
           }
-          &:checked {
-          }
-          &:hover, &:checked {
-            @include opacity(1);
-          }
-
-          /* product images */
-          &.cassandra {
-            content: url('../images/cassandra.jpg');
-          }
-          &.couchbase {
-            content: url('../images/couchbase.png');
-          }
-          &.drupal {
-            content: url('../images/drupal.jpg');
-          }
-          &.elastic-search {
-            content: url('../images/elastic-search.jpg');
-          }
-          &.jboss {
-            content: url('../images/jboss.png');
-          }
-          &.memcached {
-            content: url('../images/memcached.png');
-          }
-          &.mongodb {
-            content: url('../images/mongodb.png');
-          }
-          &.mysql {
-            content: url('../images/mysql.png');
-          }
-          &.petclinic {
-            content: url('../images/petclinic.png');
-          }
-          &.play {
-            content: url('../images/play.png');
-          }
-          &.vertx {
-            content: url('../images/vertx.jpg');
-          }
-        }
-        .video-link {
-          padding: 5px 15px;
-          height: 25px;
-          a {
-            float: right;
-            line-height: 25px;
-            font-size: .8em;
-            &:after {
-              content: ' \2197';
-              line-height: 25px;
+          .video-link {
+            padding: 0 15px;
+            height: 30px;
+            a {
+              float: right;
+              line-height: 30px;
+              font-size: .8em;
+              &:after {
+                content: ' \2197';
+                line-height: 25px;
+              }
             }
           }
         }

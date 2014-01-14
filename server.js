@@ -147,6 +147,8 @@ app.use(function(err, req, res, next) {
  * Routes
  */
 
+app.get('/backend/conf', conf.sendPublicConfiguration);
+
 app.get('/backend/widgetslist', function(request, response, next) {
 
     var requestData = {};

@@ -31,7 +31,7 @@
     </header>
     <aside ng-click="prev()" class="side left" ng-class="{ disabled: isStart() }"></aside>
     <aside ng-click="next()" class="other side right" ng-class="{ disabled: isEnd() }"></aside>
-    <div id="content" ng-class="data.going">
+    <div id="content" ng-class="model.going">
         <div ng-include="'views/breadcrumb.html'"></div>
         <div ng-view class="main"></div>
     </div>
@@ -42,34 +42,3 @@
         <div ng-include="'views/footer.html'" class="row"></div>
     </div>
 </footer>
-
-
-
-<!--
-<dl ng-repeat="widget in data.widgetsList.data">
-    <dt>id                   </dt><dd>{{ widget.id                    }}</dd>
-    <dt>productName          </dt><dd>{{ widget.productName           }}</dd>
-    <dt>providerURL          </dt><dd>{{ widget.providerURL           }}</dd>
-    <dt>productVersion       </dt><dd>{{ widget.productVersion        }}</dd>
-    <dt>title                </dt><dd>{{ widget.title                 }}</dd>
-    <dt>youtubeVideoUrl      </dt><dd>{{ widget.youtubeVideoUrl       }}</dd>
-    <dt>recipeURL            </dt><dd>{{ widget.recipeURL             }}</dd>
-    <dt>allowAnonymous       </dt><dd>{{ widget.allowAnonymous        }}</dd>
-    <dt>apiKey               </dt><dd>{{ widget.apiKey                }}</dd>
-    <dt>enabled              </dt><dd>{{ widget.enabled               }}</dd>
-    <dt>recipeName           </dt><dd>{{ widget.recipeName            }}</dd>
-    <dt>requireLogin         </dt><dd>{{ widget.requireLogin          }}</dd>
-    <dt>loginVerificationUrl </dt><dd>{{ widget.loginVerificationUrl  }}</dd>
-    <dt>webServiceKey        </dt><dd>{{ widget.webServiceKey         }}</dd>
-    <dt>lifeExpectancy       </dt><dd>{{ widget.lifeExpectancy        }}</dd>
-    <dt>description          </dt><dd>{{ widget.description           }}</dd>
-    <dt>consoleUrlService    </dt><dd>{{ widget.consoleUrlService     }}</dd>
-    <dt>username             </dt><dd>{{ widget.username              }}</dd>
-    <dt>numOfInstances       </dt><dd>{{ widget.numOfInstances        }}</dd>
-    <dt>requiresLogin        </dt><dd>{{ widget.requiresLogin         }}</dd>
-    <dt>consolename          </dt><dd>{{ widget.consolename           }}</dd>
-    <dt>consoleurl           </dt><dd>{{ widget.consoleurl            }}</dd>
-    <dt>rootpath             </dt><dd>{{ widget.rootpath              }}</dd>
-    <hr />
-</dl>
--->

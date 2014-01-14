@@ -1,0 +1,72 @@
+<div id="skin-content">
+    <div id="widgetContainer">
+        <div id="widget-header">
+            <div id="title">{{!!selectedWidget && "Launch " + selectedWidget.productName + " Now!" || "Cloudify App Catalog" }}</div>
+            <div class="subtitles">
+                <div class="subtitle" ng-repeat="subtitle in subtitles" ng-bind-html-unsafe="subtitle">
+                </div>
+            </div>
+        </div>
+
+<!--
+        <div id="logContainer">
+            <ul id="log">
+                <li ng-hide="leadTimeExpired()" ng-repeat="msg in widgetLog" ng-bind-html-unsafe="msg"></li>
+                <li ng-show="leadTimeExpired()">Your free trial is over. <a href="http://www.cloudifysource.org/downloads/get_cloudify">Click here</a> to get Cloudify</li>
+            </ul>
+            <ul id="links" ng-show="isPlaying()">
+                <li id="manageApp" ng-show="manageUrl != null"><a href="{{manageUrl}}" target="_blank">Manage your app</a></li>
+                <li ng-show="consoleUrl != null"><div class="consoleManageArrow"></div><a href="{{consoleUrl}}" target="_blank">{{selectedWidget.productName}} Console</a></li>
+            </ul>
+
+            <span id="time_left" ng-class="!!widgetTime && !unlimited && 'visible' || 'hidden'">
+                Time left:
+                &lt;!&ndash;<span id="time_left_counter">{{widgetTime | timeFilter}}</span>&ndash;&gt;
+                <span id="time_left_counter">{{widgetTime}}</span>
+            </span>
+        </div>
+-->
+
+        <div id="controls">
+            <div class="button" ng-class="{'play':!!isPlaying(),'stop':!isPlaying()}">
+                <div id="play_btn" ng-click="playWidget()" ng-class="{disabled: !playEnabled()}"></div>
+                <div id="stop_btn" ng-click="stopWidget()"></div>
+            </div>
+        </div>
+
+<!--
+        <div id="video_container" ng-class="hideAdvanced() && 'videoPreview' || 'videoRegistered'">
+            <iframe id="widgetVideo" ng-src="{{getVideoURL(selectedWidget.youtubeVideoUrl)}}" frameborder="0" allowfullscreen></iframe>
+        </div>
+-->
+
+<!--
+        <div ng-class="hideAdvanced() && 'hidden' || 'advanced_section'" id="advanced">
+            <div id="advancedHeader">
+                <div id="advancedTitle">HP Cloud Credentials</div>
+            </div>
+            <div class="form-footer-links">
+                <a class="form-footer-links" href="http://youtu.be/lHtOBXpouyo" target="_blank" ng-mouseover="toggleAdvancedHelp()" ng-mouseleave="toggleAdvancedHelp()">Help</a>
+                <a style="display:none" id="hp_console_link" class="form-footer-links" href="http://console.hpcloud.com" target="_blank">HP Console</a>
+            </div>
+            <form class="advanced_form" >
+                &lt;!&ndash;[if IE]>
+                <div class="ieFormFieldText">Project:</div><input name="project_name" class="ie_project_name"  ng-model="advanced.project_name" ng-change="advancedChange()"/>
+                <div class="ieFormFieldText">HPCS Key:</div><input name="hpcs_key" class="ie_hpcs_key"  ng-model="advanced.hpcs_key" ng-change="advancedChange()"/>
+                <div class="ieFormFieldText">HPCS Secret Key:</div><input name="hpcs_secret_key" class="ie_hpcs_secret_key" type="password" ng-model="advanced.hpcs_secret_key" ng-change="advancedChange()"/>
+                <![endif]&ndash;&gt;
+                &lt;!&ndash;[if !IE]>&lt;!&ndash;dash;&gt;
+                <input name="project_name"  placeholder="Project" ng-model="advanced.project_name" ng-change="advancedChange()"/>
+                <input name="hpcs_key"  placeholder="HPCS Key" ng-model="advanced.hpcs_key" ng-change="advancedChange()"/>
+                <input name="hpcs_secret_key" placeholder="HPCS Secret Key" type="password" ng-model="advanced.hpcs_secret_key" ng-change="advancedChange()"/>
+                <![endif]
+                <div id="createAccount"><a href="https://account.hpcloud.com/signup" target="_blank">Create HP Public Cloud account</a></div>
+                <input type="submit" class="hidden" value="submit"/>
+            </form>
+        </div>
+-->
+
+    </div>
+
+    <iframe id="iframe" ng-src="{{widgetIframeSrc}}"></iframe>
+</div>
