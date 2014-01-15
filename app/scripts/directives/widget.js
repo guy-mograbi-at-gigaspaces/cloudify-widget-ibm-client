@@ -9,14 +9,10 @@ angular.module('cloudifyWidgetIbmClientApp')
                 selectedWidget: '=',
                 upid: '=' // unique page id - for widget caching, we want each page to have a separate cookie, otherwise they will share sessions.
             },
-            controller: function ($scope, $element, $location, $timeout, $sce) {
+            controller: function ($scope, $element, $location, $timeout, $sce, WidgetServer) {
 
-                // TODO move to WidgetServer service (its job would be returning paths for the widget iframe api, e.g. http://ibm.com/widget/icon/1239407974)
-                function getPostUrl() {
-                    return window.conf.widgetServerProtocol + '://' + window.conf.widgetServer;
-                }
 
-                $scope.postUrl = getPostUrl();
+                $scope.postUrl = WidgetServer.postUrl();
                 $scope.pageUrl = $location.protocol() + '://' + $location.host();
                 $scope.play = false;
                 // TODO adapt for IBM credentials
@@ -31,20 +27,17 @@ angular.module('cloudifyWidgetIbmClientApp')
 
 
                 function getResourceUrl() {
-//                    console.log('---', $scope.selectedWidget)
                     if (!$scope.selectedWidget) {
-//                        console.log('returning nothing')
                         return '';
                     }
-//                    var apiKey = ($scope.selectedWidget.apiKey || '80958caf3878d4d383a9ec6d9da6a3ffe351aedf8a43ab4eb2f394dc4d48d86c');
                     var apiKey = $scope.selectedWidget.apiKey;
                     var url = $scope.postUrl + '/widget/widget?apiKey=' +
                         apiKey +
                         '&origin_page_url=' + $scope.pageUrl + '/' +
                         apiKey +
                         '_' +
-                        ($scope.upid || Date.now());
-//                    console.log('returning url: ', url);
+                        ($scope.upid || Date.now()) +
+                        '&title=' + $scope.selectedWidget.productName;
                     return url;
                 }
 

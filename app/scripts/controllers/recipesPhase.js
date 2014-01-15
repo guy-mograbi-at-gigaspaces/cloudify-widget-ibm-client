@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('cloudifyWidgetIbmClientApp')
-    .controller('RecipesPhaseCtrl', ['$scope', 'Backend', 'GsConstants', 'Wizard', function ($scope, Backend, GsConstants, Wizard) {
+    .controller('RecipesPhaseCtrl', ['$scope', 'Backend', 'GsConstants', 'Wizard', 'WidgetServer', '$sce',
+        function ($scope, Backend, GsConstants, Wizard, WidgetServer, $sce) {
 
         $scope.model = {};
 
@@ -15,7 +16,7 @@ angular.module('cloudifyWidgetIbmClientApp')
             if (!apiKey) {
                 return false;
             }
-            return window.conf.widgetServerProtocol + '://' + window.conf.widgetServer + '/widget/icon?apiKey=' + apiKey;
+            return $sce.trustAsResourceUrl(WidgetServer.iconUrl(apiKey));
         };
 
         $scope.selectWidget = function (widget) {

@@ -156,6 +156,7 @@ app.get('/backend/widgetslist', function(request, response, next) {
     requestData.response = response;
     requestData.options = {
         hostname: conf.widgetServer,
+        port: conf.widgetServerPort,
         path: '/api/user/'+ conf.userId +'/widgets?authToken=' + conf.authToken,
         method: 'GET'
     };
@@ -187,6 +188,7 @@ function createRequest(requestData) {
 
     var onError = function(e) {
         console.log('problem with request: ' + e.message);
+//        console.log(requestData.request)
         requestData.response.send(500);
     };
 

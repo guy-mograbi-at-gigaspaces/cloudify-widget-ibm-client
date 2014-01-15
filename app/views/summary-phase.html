@@ -1,11 +1,11 @@
 <section ng-controller="SummaryPhaseCtrl" class="summary">
     <p>
-        widget: {{ model.selectedWidget.productName }}
+        widget: {{ model.widget.productName }}
     </p>
     <p>
         credentials: {{ model.credentials }}
     </p>
-    <!--<div widget selected-widget="widget"></div>-->
+    <div widget selected-widget="model.widget"></div>
     <!--<div widget selected-widget="widget" upid="model.getUpid"></div>-->
     <!--<div widget id="widgetSkin" selected-widget="selectedWidget"></div>-->
 </section>

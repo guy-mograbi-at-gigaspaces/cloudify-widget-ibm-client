@@ -5,7 +5,7 @@ angular.module('cloudifyWidgetIbmClientApp')
 
         $scope.model = {};
 
-        $scope.model.selectedWidget = Wizard.widget();
+        $scope.model.widget = Wizard.widget();
 
         $scope.model.credentials = Wizard.credentials();
 
