@@ -1,13 +1,11 @@
 'use strict';
 
 angular.module('cloudifyWidgetIbmClientApp')
-    .controller('RecipesPhaseCtrl', ['$scope', 'Backend', 'GsConstants', function ($scope, Backend, GsConstants) {
+    .controller('RecipesPhaseCtrl', ['$scope', 'Backend', 'GsConstants', 'Wizard', function ($scope, Backend, GsConstants, Wizard) {
 
         $scope.model = {};
 
         $scope.model.widgetsList = Backend.listWidgets(); // TODO get widgets list only once. possibly by creating a directive and defining a compile() function
-
-        $scope.model.selectedWidget = '';
 
         $scope.widgetClassname = function (productName) {
             return GsConstants.widgetNameToClassnameMap[productName] || '';
@@ -21,7 +19,14 @@ angular.module('cloudifyWidgetIbmClientApp')
         };
 
         $scope.selectWidget = function (widget) {
-            $scope.model.selectedWidget = widget;
+            Wizard.widget(widget);
+        };
+
+        $scope.isChecked = function (widget) {
+            if (!Wizard.widget()) {
+                return false;
+            }
+            return Wizard.widget().id === widget.id;
         };
 
     }]);

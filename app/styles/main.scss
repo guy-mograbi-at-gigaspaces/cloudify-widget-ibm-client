@@ -68,12 +68,6 @@ input {
   }
 }
 
-fieldset {
-  border-top: 1px solid $borderColor;
-  margin-top: 1em;
-  padding-top: 1em;
-}
-
 label {
   font-weight: normal;
 }
@@ -389,7 +383,7 @@ section {
       min-width: 300px;
       max-width: 600px;
       width: 50%;
-      margin: 0 auto;
+      margin: 30px auto;
     }
   }
 }

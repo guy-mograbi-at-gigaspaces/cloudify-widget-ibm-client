@@ -5,4 +5,10 @@ angular.module('cloudifyWidgetIbmClientApp')
 
         $scope.model = {};
 
+/*
+        $scope.$on('widgetSet', function (e, val) {
+            console.log('caught widget set: ', val);
+        });
+*/
+
     }]);

@@ -1,5 +1,11 @@
 <section ng-controller="SummaryPhaseCtrl" class="summary">
-    {{ selectedWidget }}
-    <!--<div widget id="widgetSkin" selected-widget="selectedWidget" subtitles="getSubtitles()" require-lead="{{requireLead()}}" require-advanced="{{requireAdvanced()}}" unlimited="isUnlimited()" upid="getUpid()" widget-time='widgetTime'></div>-->
+    <p>
+        widget: {{ model.selectedWidget.productName }}
+    </p>
+    <p>
+        credentials: {{ model.credentials }}
+    </p>
+    <!--<div widget selected-widget="widget"></div>-->
+    <!--<div widget selected-widget="widget" upid="model.getUpid"></div>-->
     <!--<div widget id="widgetSkin" selected-widget="selectedWidget"></div>-->
 </section>

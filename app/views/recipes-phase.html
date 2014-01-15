@@ -5,18 +5,19 @@
                 ng-click="selectWidget(widget)">
             <label>
                 {{ widget.productName }}
-                <!--<input type="radio" name="widget-icons-group" ng-class="widgetClassname( widget.productName )" />-->
-                <input type="radio" name="widget-icons-group"/>
+                <input type="radio" name="widget-icons-group" ng-checked="isChecked(widget)" />
                 <img ng-src="{{ widgetIcon(widget.apiKey) }}">
                 <div class="video-link">
                     <a ng-if="widget.youtubeVideoUrl" href="{{widget.youtubeVideoUrl}}" target="_blank">see how-to</a>
                 </div>
             </label>
             <!--<div widget selected-widget="widget"></div>-->
-            <!--<div widget selected-widget="widget" subtitles="model.subtitles" upid="model.getUpid"></div>-->
+            <!--<div widget selected-widget="widget" upid="model.getUpid"></div>-->
         </li>
     </ul>
+
     <!--{{ model.selectedWidget }}-->
+
     <!--<div widget selected-widget="model.selectedWidget" subtitles="model.subtitles" require-lead="model.requireLead" require-advanced="model.requireAdvanced" unlimited="model.isUnlimited" upid="model.getUpid" widget-time="model.widgetTime"></div>-->
     <!--<div widget id="widgetSkin" selected-widget="model.selectedWidget"></div>-->
 
