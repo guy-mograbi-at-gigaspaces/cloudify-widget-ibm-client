@@ -8,10 +8,6 @@ angular.module('cloudifyWidgetIbmClientApp')
 
         $scope.model.widgetsList = Backend.listWidgets(); // TODO get widgets list only once. possibly by creating a directive and defining a compile() function
 
-        $scope.widgetClassname = function (productName) {
-            return GsConstants.widgetNameToClassnameMap[productName] || '';
-        };
-
         $scope.widgetIcon = function (apiKey) {
             if (!apiKey) {
                 return false;

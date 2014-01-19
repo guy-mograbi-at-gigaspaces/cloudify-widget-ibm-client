@@ -9,4 +9,8 @@ angular.module('cloudifyWidgetIbmClientApp')
 
         $scope.model.credentials = Wizard.credentials();
 
+        $scope.ready = function () {
+            return $scope.model.widget && $scope.model.credentials.valid;
+        }
+
     }]);

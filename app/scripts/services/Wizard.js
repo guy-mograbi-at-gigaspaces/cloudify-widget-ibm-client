@@ -8,10 +8,12 @@ angular.module('cloudifyWidgetIbmClientApp')
         var _credentials = null;
 
         return {
+
             widget: function (w) {
                 w && (_widget = w);
                 return _widget;
             },
+
             credentials: function (c) {
                 c && (_credentials = c);
                 return _credentials;

@@ -13,13 +13,12 @@ angular.module('cloudifyWidgetIbmClientApp')
 
 
                 $scope.postUrl = WidgetServer.postUrl();
-                $scope.pageUrl = $location.protocol() + '://' + $location.host();
+                $scope.pageUrl = $location.protocol() + '://' + $location.host() + ($location.port() && ':' + $location.port() || '');
                 $scope.play = false;
-                // TODO adapt for IBM credentials
                 $scope.advanced = {
-                    project_name: '',
-                    hpcs_key: '',
-                    hpcs_secret_key: ''
+                    userId: '',
+                    password: '',
+                    apiKey: ''
                 };
                 $scope.manageUrl = null;
                 $scope.consoleUrl = null;
@@ -107,24 +106,24 @@ angular.module('cloudifyWidgetIbmClientApp')
                 };
 
                 $scope.playWidget = function () {
+                    console.log('checked: ' + $scope.credentialsChecked())
 
                     if (!$scope.credentialsChecked()) {
                         return;
                     }
 
                     $scope.play = true;
-                    var iframe = $element.find('#iframe');
+                    var iframe = getIframe();
                     var postObj = {
                         name: 'play_widget'
                     };
 
                     // translate advanced to whatever the postMessage to give the widget.
                     if (hasAdvancedCredentials()) {
-                        // TODO adapt for IBM credentials
                         postObj.advanced = {
-                            'project': $scope.advanced.project_name,
-                            'key': $scope.advanced.hpcs_key,
-                            'secretKey': $scope.advanced.hpcs_secret_key
+                            'userId': $scope.advanced.userId,
+                            'password': $scope.advanced.password,
+                            'apiKey': $scope.advanced.apiKey
                         };
                     } else {
                         console.log(['error, require advanced, but no advanced data, and still running play function.. wat?', $scope.advanced]);
@@ -133,13 +132,17 @@ angular.module('cloudifyWidgetIbmClientApp')
                     $scope.widgetLog = [];
 
                     console.log(['posting', postObj ]);
-                    $.postMessage(JSON.stringify(postObj), $scope.postUrl, iframe.get(0).contentWindow);
+                    $.postMessage(JSON.stringify(postObj), $scope.postUrl, iframe.contentWindow);
                 };
+
+                function getIframe() {
+                    return angular.element($element[0].querySelector('#iframe'))[0];
+                }
 
                 $scope.stopWidget = function () {
                     $scope.play = false;
-                    var iframe = $element.find('#iframe');
-                    $.postMessage(JSON.stringify({name: 'stop_widget'}), $scope.postUrl, iframe.get(0).contentWindow);
+                    var iframe = getIframe();
+                    $.postMessage(JSON.stringify({name: 'stop_widget'}), $scope.postUrl, iframe.contentWindow);
                 };
 
                 function _isNotEmptyString(str) {
@@ -147,10 +150,9 @@ angular.module('cloudifyWidgetIbmClientApp')
                 }
 
                 function hasAdvancedCredentials() {
-                    // TODO adapt for IBM credentials
-                    return _isNotEmptyString($scope.advanced.project_name) &&
-                        _isNotEmptyString($scope.advanced.hpcs_key) &&
-                        _isNotEmptyString($scope.advanced.hpcs_secret_key);
+                    return _isNotEmptyString($scope.advanced.userId) &&
+                        _isNotEmptyString($scope.advanced.password) &&
+                        _isNotEmptyString($scope.advanced.apiKey);
                 }
 
                 $scope.credentialsChecked = function () {
@@ -164,6 +166,17 @@ angular.module('cloudifyWidgetIbmClientApp')
                         return true;
                     }
                     return false;
+                };
+
+                $scope.playButtonAction = function () {
+                    if (!$scope.playButtonState) {
+                        return;
+                    }
+                    if ($scope.playButtonState === 'play') {
+                        $scope.playWidget();
+                    } else if ($scope.playButtonState === 'stop') {
+                        $scope.stopWidget();
+                    }
                 };
 
                 $scope.$watch('selectedWidget', function (newWidget) {

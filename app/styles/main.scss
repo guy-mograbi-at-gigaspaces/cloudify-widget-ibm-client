@@ -33,8 +33,9 @@ $darkGray: #444;
 $borderColor: #ccc;
 $softlayerRed: #b72e33;
 $layoutSideWidthPerc: 100% / $grid-columns;
-$headerBorderHeight: 7px;
+$headerBorderWidth: 7px;
 $footerHeight: 60px;
+$playButtonWidth: 170px;
 
 /* mixins & functions */
 @mixin gsCalc($property, $args) {
@@ -60,6 +61,13 @@ $footerHeight: 60px;
   -webkit-filter: grayscale(0%);
 }
 
+@mixin gsCircle($diameter) {
+  width: $diameter;
+  height: $diameter;
+  @include border-bottom-radius($diameter / 2);
+  @include border-top-radius($diameter / 2);
+}
+
 /* default rules overrides */
 
 input {
@@ -72,10 +80,26 @@ label {
   font-weight: normal;
 }
 
-
 /* 2. helper classes
 -----------------------------------*/
 
+/* centering-in-the-unknown hack by chris coyier */
+.centered-box {
+  text-align: center;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
+  }
+  .centered {
+    display: inline-block;
+    vertical-align: middle;
+    //width: 300px;
+  }
+}
 
 
 /* 3. baseline styles
@@ -89,6 +113,14 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   font-size: 160%;
+}
+
+h2 {
+  font-size: 140%;
+}
+
+h3 {
+  font-size: 130%;
 }
 
 [disabled="disabled"] {
@@ -155,7 +187,7 @@ html, body, .full-height {
 #content {
   .main {
     position: absolute;
-    top: 180px + $headerBorderHeight;
+    top: 180px + $headerBorderWidth;
     bottom: $footerHeight + 30px;
     left: $layoutSideWidthPerc;
     right: $layoutSideWidthPerc;
@@ -167,7 +199,7 @@ html, body, .full-height {
 -----------------------------------*/
 
 #header {
-  border-top: $headerBorderHeight solid $softlayerRed;
+  border-top: $headerBorderWidth solid $softlayerRed;
   background-color: $darkGray;
   .logo-box {
     width: 560px;
@@ -182,7 +214,7 @@ html, body, .full-height {
       &:not(:first-child):before {
         content: '\2022';
         position: absolute;
-        top: 65px + $headerBorderHeight;
+        top: 65px + $headerBorderWidth;
         left: -38px;
         line-height: 0;
         font-size: 30px;
@@ -212,7 +244,7 @@ html, body, .full-height {
 .side {
   cursor: pointer;
   @include opacity(.6);
-  @include transition(all linear 0.1s);
+  @include transition(0.05s all 0 linear);
   &:hover {
     @include opacity(1);
   }
@@ -226,7 +258,7 @@ html, body, .full-height {
     text-align: center;
     font-size: 120px;
     font-family: arial;
-    color: #777;
+    color: $text-color;
   }
   &.left:after {
     left: 0;
@@ -378,12 +410,111 @@ section {
     }
   }
 
-  &.details {
+  &.credentials {
     form {
       min-width: 300px;
       max-width: 600px;
       width: 50%;
       margin: 30px auto;
+
+      input.ng-dirty.ng-invalid {
+        background-color: #ff3a3c;
+        @include opacity(.3);
+      }
+    }
+  }
+
+  &.summary {
+
+    .widget {
+      position: relative;
+      height: 300px;
+      margin: 40px 0;
+
+      [class*="row"],
+      [class*="col-"] {
+        height: 100%;
+      }
+
+      .play-box {
+        position: absolute;
+        @include gsCalc('top', '50% - ' + $playButtonWidth / 2);
+        @include gsCalc('left', '50% - ' + $playButtonWidth / 2);
+        z-index: 9999;
+
+        @include transition(.1s opacity linear);
+
+        @include opacity(.2);
+
+        label.play-button {
+          position: relative;
+
+          input[type="checkbox"] {
+            position: absolute;
+            visibility: hidden;
+            @include gsNativeHidden();
+            outline: 0 none;
+
+            ~ div {
+              border: $headerBorderWidth solid $text-color;
+              background-color: $body-bg;
+              cursor: pointer;
+              display: block;
+              overflow: hidden;
+              @include gsCircle($playButtonWidth);
+
+              &:after {
+                content: '';
+                position: absolute;
+                left: $playButtonWidth * .40;
+                top: $playButtonWidth * .18;
+                display: block;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: $playButtonWidth * .330 $playButtonWidth * .350;
+                border-color: transparent transparent transparent $text-color;
+              }
+            }
+            &:active ~ div:hover,
+            &:checked ~ div:hover,
+            &:checked ~ div {
+              border-color: $softlayerRed;
+            }
+            &:active ~ div:hover:after,
+            &:checked ~ div:hover:after,
+            &:checked ~ div:after {
+              border-left-color: $softlayerRed;
+            }
+            ~ div:hover {
+              border-color: $darkGray;
+            }
+            ~ div:hover:after {
+              border-left-color: $darkGray;
+            }
+            &:active ~ div {
+              margin-top: $playButtonWidth * .015;
+              margin-left: $playButtonWidth * .015;
+              @include gsCircle($playButtonWidth * .970);
+            }
+            &:active ~ div:hover:after {
+              left: $playButtonWidth * .400 * 1.015;
+              top: $playButtonWidth * .180 * 1.110;
+              border-width: $playButtonWidth * .330 * .942 $playButtonWidth * .350 * .942;
+            }
+          }
+        }
+      }
+      .console {
+        height: 100%;
+        margin: 0 auto;
+        border: $headerBorderWidth solid $text-color;
+        background-color: $body-bg;
+
+        &:hover .play-box {
+          @include opacity(1);
+        }
+      }
     }
   }
 }

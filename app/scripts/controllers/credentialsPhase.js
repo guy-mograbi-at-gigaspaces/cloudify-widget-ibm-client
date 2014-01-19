@@ -3,12 +3,13 @@
 angular.module('cloudifyWidgetIbmClientApp')
     .controller('CredentialsPhaseCtrl', ['$scope', 'Wizard', function ($scope, Wizard) {
 
-        $scope.model = {};
+        $scope.model = Wizard.credentials();
 
-        $scope.model.credentials = Wizard.credentials();
-
-        $scope.$watch('model.credentials', function (newValue, oldValue) {
-            Wizard.credentials(newValue);
+        $scope.$watch('form.$valid', function (newValue, oldValue) {
+            if ($scope.model) {
+                $scope.model.valid = newValue;
+            }
+            Wizard.credentials($scope.model);
         });
 
     }]);
