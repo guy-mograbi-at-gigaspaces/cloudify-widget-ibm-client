@@ -6,12 +6,10 @@
             ng-show="widget.providerURL.indexOf('bluforcloud.com') !== -1"
             ng-click="selectWidget(widget)">
 -->
-        <li ng-repeat="widget in model.widgetsList"
-            ng-click="selectWidget(widget)">
+        <li ng-repeat="widget in model.widgetsList" ng-click="selectWidget(widget)">
             <label>
                 {{ widget.productName }}
-                <input type="radio" name="widget-icons-group" ng-checked="isChecked(widget)" />
-                <img ng-src="{{ widgetIcon(widget.apiKey) }}">
+                <img ng-class="selectedStyle(widget)" class="widget-img" ng-src="http://ibmwidget.gsdev.info/widget/icon?apiKey={{widget.apiKey}}"/>
                 <div class="video-link">
                     <a ng-if="widget.youtubeVideoUrl" href="{{widget.youtubeVideoUrl}}" target="_blank">see how-to</a>
                 </div>

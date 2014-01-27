@@ -161,10 +161,28 @@ app.get('/backend/widgetslist', function(request, response, next) {
         method: 'GET'
     };
 
-    createRequest(requestData);
+    createRequest(requestData, function(err, data){
+        if ( !!err ){
+            response.status(500).send(err.message);
+            return;
+        }
+
+        data = data || [];
+        var enabledWidgets = [];
+        console.log([data.length,data]);
+
+        for ( var i = 0; i < data.length; i++ ){
+            console.log(["checking widget",i, data[i].enabled ]);
+            if ( !!data[i].enabled ){
+                enabledWidgets.push(data[i]);
+            }
+        }
+        response.send(enabledWidgets);
+    });
 });
 
-function createRequest(requestData) {
+
+function createRequest(requestData, _callback ) {
     var callback = function(res) {
         var data = '';
         var result = '';
@@ -177,12 +195,13 @@ function createRequest(requestData) {
         });
 
         res.on('end', function () {
-            var jsonStr = JSON.stringify(result);
+            var jsonStr = typeof(result) == "string" ? result : JSON.stringify(result);
             data = JSON.parse(jsonStr);
 
             console.log('Request done, data: ' + data);
 
-            requestData.response.send(data);
+            _callback(null, data);
+
         });
     };
 

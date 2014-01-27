@@ -7,7 +7,7 @@
     <aside ng-click="prev()" class="side left" ng-class="{ disabled: isStart() }"></aside>
     <aside ng-click="next()" class="other side right" ng-class="{ disabled: isEnd() }"></aside>
     <div id="content" ng-class="model.going">
-        <div ng-include="'views/breadcrumb.html'"></div>
+        <div ng-include="'views/breadcrumb.html'" ng-hide="true"></div>
         <div ng-view class="main"></div>
     </div>
     <div id="fix"></div>

@@ -27,5 +27,6 @@ angular.module('cloudifyWidgetIbmClientApp', ['ngRoute', 'ngAnimate', 'ngResourc
             });
 
 //        $locationProvider.html5Mode(true);
+        // ~!~
     }])
     .run(['$route', angular.noop]);
