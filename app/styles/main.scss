@@ -364,34 +364,27 @@ section {
         border: 1px solid $borderColor;
         background-color: #fafafa;
 
+        .widget-img{
+          display: block;
+          width: 60px;
+          height: 60px;
+          margin: 30px 60px 50px;
+          outline: none;
+        }
+        .widget-selected{
+          @include opacity(1);
+        }
+        .widget-unselected{
+          @include opacity(0.2);
+        }
+
         label, input {
           cursor: pointer;
         }
         label {
           margin: 0;
           padding: 15px 0 5px;
-          img {
-            display: block;
-            width: 60px;
-            height: 60px;
-            margin: 20px 60px;
-            @include gsGrayscale();
-            @include opacity(.7);
-          }
-          input[type="radio"] {
-            position: absolute;
-            visibility: hidden;
-            @include gsNativeHidden();
-            outline: 0 none;
 
-            &:checked ~ img {
-              @include gsGrayscaleDisable();
-            }
-            &:hover ~ img,
-            &:checked ~ img {
-              @include opacity(1);
-            }
-          }
           .video-link {
             padding: 0 15px;
             height: 30px;

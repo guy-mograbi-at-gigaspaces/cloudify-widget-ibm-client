@@ -31,18 +31,18 @@ angular.module('cloudifyWidgetIbmClientApp')
                 }
                 // TODO extract breadcrumb to directive
                 if (dir >= 0) {
-                    $scope.data.going = 'next';
-                    $scope.data.step++;
-                    $scope.data.breadcrumb.push({
-                        name: 'step ' + $scope.data.step,
-                        path: $scope.data.step
+                    $scope.model.going = 'next';
+                    $scope.model.step++;
+                    $scope.model.breadcrumb.push({
+                        name: 'step ' + $scope.model.step,
+                        path: $scope.model.step
                     });
                 } else {
-                    $scope.data.going = 'prev';
-                    $scope.data.step--;
-                    $scope.data.breadcrumb.pop();
+                    $scope.model.going = 'prev';
+                    $scope.model.step--;
+                    $scope.model.breadcrumb.pop();
                 }
-                return $location.path('/step/' + $scope.data.step);
+                return $location.path('/step/' + $scope.model.step);
             };
 
         $scope.prev = function () {
