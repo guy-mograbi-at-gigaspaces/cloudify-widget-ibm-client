@@ -7,7 +7,7 @@ angular.module('cloudifyWidgetIbmClientApp')
             restrict: 'A',
             scope: {
                 selectedWidget: '=',
-                upid: '=' // unique page id - for widget caching, we want each page to have a separate cookie, otherwise they will share sessions.
+                credentials: '='
             },
             controller: function ($scope, $element, $location, $timeout, $sce, WidgetServer) {
 
@@ -15,11 +15,6 @@ angular.module('cloudifyWidgetIbmClientApp')
                 $scope.postUrl = WidgetServer.postUrl();
                 $scope.pageUrl = $location.protocol() + '://' + $location.host() + ($location.port() && ':' + $location.port() || '');
                 $scope.play = false;
-                $scope.advanced = {
-                    userId: '',
-                    password: '',
-                    apiKey: ''
-                };
                 $scope.manageUrl = null;
                 $scope.consoleUrl = null;
                 $scope.widgetLog = [];
@@ -106,27 +101,26 @@ angular.module('cloudifyWidgetIbmClientApp')
                 };
 
                 $scope.playWidget = function () {
-                    console.log('checked: ' + $scope.credentialsChecked())
 
                     if (!$scope.credentialsChecked()) {
                         return;
                     }
 
                     $scope.play = true;
-                    var iframe = getIframe();
+                    var iframe = _getIframe();
                     var postObj = {
                         name: 'play_widget'
                     };
 
                     // translate advanced to whatever the postMessage to give the widget.
-                    if (hasAdvancedCredentials()) {
+                    if (hasCredentials()) {
                         postObj.advanced = {
-                            'userId': $scope.advanced.userId,
-                            'password': $scope.advanced.password,
-                            'apiKey': $scope.advanced.apiKey
+                            'userId': $scope.credentials.userId,
+                            'password': $scope.credentials.password,
+                            'apiKey': $scope.credentials.apiKey
                         };
                     } else {
-                        console.log(['error, require advanced, but no advanced data, and still running play function.. wat?', $scope.advanced]);
+                        console.log(['error, require advanced, but no advanced data, and still running play function.. wat?', $scope.credentials]);
                         return;
                     }
                     $scope.widgetLog = [];
@@ -135,13 +129,21 @@ angular.module('cloudifyWidgetIbmClientApp')
                     $.postMessage(JSON.stringify(postObj), $scope.postUrl, iframe.contentWindow);
                 };
 
-                function getIframe() {
-                    return angular.element($element[0].querySelector('#iframe'))[0];
+                function _getElement(anySelector) {
+                    return angular.element($element[0].querySelector(anySelector))[0];
+                }
+
+                function _getIframe() {
+                    return _getElement('#iframe');
+                }
+
+                function _getLog() {
+                    return _getElement('#log');
                 }
 
                 $scope.stopWidget = function () {
                     $scope.play = false;
-                    var iframe = getIframe();
+                    var iframe = _getIframe();
                     $.postMessage(JSON.stringify({name: 'stop_widget'}), $scope.postUrl, iframe.contentWindow);
                 };
 
@@ -149,14 +151,14 @@ angular.module('cloudifyWidgetIbmClientApp')
                     return str !== undefined && str !== null && $.trim(str).length > 0;
                 }
 
-                function hasAdvancedCredentials() {
-                    return _isNotEmptyString($scope.advanced.userId) &&
-                        _isNotEmptyString($scope.advanced.password) &&
-                        _isNotEmptyString($scope.advanced.apiKey);
+                function hasCredentials() {
+                    return _isNotEmptyString($scope.credentials.userId) &&
+                        _isNotEmptyString($scope.credentials.password) &&
+                        _isNotEmptyString($scope.credentials.apiKey);
                 }
 
                 $scope.credentialsChecked = function () {
-                    return  hasAdvancedCredentials();
+                    return  hasCredentials();
                 };
 
                 $scope.playEnabled = function () {
@@ -199,7 +201,7 @@ angular.module('cloudifyWidgetIbmClientApp')
                 };
 
                 function _scrollLog() {
-                    var log = $element.find('#log')[0];
+                    var log = _getLog();
                     log.scrollTop = log.scrollHeight;
                 }
 

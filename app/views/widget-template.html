@@ -25,31 +25,15 @@
                 </ul>
             </div>
 
-            <ul class="links" ng-show="isPlaying()">
+            <ul class="links" ng-show="isPlaying()" id="log">
                 <li id="manageApp" ng-show="manageUrl != null"><a href="{{manageUrl}}" target="_blank">Manage your app</a></li>
                 <li ng-show="consoleUrl != null"><div class="consoleManageArrow"></div><a href="{{consoleUrl}}" target="_blank">{{selectedWidget.productName}} Console</a></li>
             </ul>
         </div>
 
-
-        <div class="col-md-1">
-            <form>
-                <input name="userId"  placeholder="User ID" ng-model="advanced.userId" />
-                <input name="password"  placeholder="Password" ng-model="advanced.password" />
-                <input name="apiKey" placeholder="API Key" type="password" ng-model="advanced.apiKey" />
-                <input type="submit" class="hidden" value="submit"/>
-            </form>
-        </div>
-
-        <!--
-                <div id="video_container" ng-class="hideAdvanced() && 'videoPreview' || 'videoRegistered'">
-                    <iframe id="widgetVideo" ng-src="{{getVideoURL(selectedWidget.youtubeVideoUrl)}}" frameborder="0" allowfullscreen></iframe>
-                </div>
-        -->
-
     </div>
 
     <div style="clear: both;"></div>
-    <iframe id="iframe" ng-src="{{ widgetIframeSrc }}"></iframe>
+    <iframe id="iframe" class="hidden" ng-src="{{ widgetIframeSrc }}"></iframe>
 </div>
 
