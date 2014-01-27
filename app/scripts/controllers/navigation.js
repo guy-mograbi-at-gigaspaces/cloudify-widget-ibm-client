@@ -1,23 +1,23 @@
 'use strict';
 
 angular.module('cloudifyWidgetIbmClientApp')
-    .controller('NavigationCtrl', ['$scope', '$location', function ($scope, $location) {
+    .controller('NavigationCtrl', ['$scope', '$location', 'GsConstants', function ($scope, $location, GsConstants) {
 
-            $scope.data = {
-                step: 0,
-                min: 0,
-                max: 2,
-                going: 'next',
-                breadcrumb: []
-            };
+        $scope.model = {
+            step: 0,
+            min: 0,
+            max: GsConstants.routes.length - 1,
+            going: 'next',
+            breadcrumb: []
+        };
 
-            $scope.isStart = function () {
-                return $scope.data.step <= $scope.data.min;
-            };
+        $scope.isStart = function () {
+            return $scope.model.step <= $scope.model.min;
+        };
 
-            $scope.isEnd = function () {
-                return $scope.data.step >= $scope.data.max;
-            };
+        $scope.isEnd = function () {
+            return $scope.model.step >= $scope.model.max;
+        };
 
             /**
              * increments or decrements the step
@@ -45,12 +45,12 @@ angular.module('cloudifyWidgetIbmClientApp')
                 return $location.path('/step/' + $scope.data.step);
             };
 
-            $scope.prev = function () {
-                return step($scope.isStart, -1);
-            };
+        $scope.prev = function () {
+            return step($scope.isStart, -1);
+        };
 
-            $scope.next = function () {
-                return step($scope.isEnd, 1);
-            };
+        $scope.next = function () {
+            return step($scope.isEnd, 1);
+        };
 
-        }]);
+    }]);

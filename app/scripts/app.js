@@ -1,27 +1,32 @@
 'use strict';
 
 angular.module('cloudifyWidgetIbmClientApp', ['ngRoute', 'ngAnimate', 'ngResource'])
-    .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+    .constant('GsConstants', {
+
+        // TODO add names for breadcrumb
+        routes: ['welcome-phase', 'recipes-phase', 'credentials-phase', 'summary-phase']
+
+    })
+    .config(['$routeProvider', 'GsConstants', function ($routeProvider, GsConstants) {
 
         $routeProvider
             .when('/', {
-                templateUrl: '/views/welcome.html',
-                controller: 'MainCtrl' // TODO ?
+                templateUrl: '/views/' + GsConstants.routes[0] + '.html'
             })
             .when('/step/:index', {
                 templateUrl: function (params) {
-                    if (~~params.index === 0) {
-                        return '/views/welcome.html';
-                    }
-                    return '/views/step-' + params.index + '.html';
-                },
-                controller: 'MainCtrl' // TODO ?
+                    return '/views/' + GsConstants.routes[params.index] + '.html';
+                }
+            })
+            // for reflecting the model, used in development
+            .when('/r', {
+                templateUrl: '/views/reflector.html'
             })
             .otherwise({
                 redirectTo: '/'
             });
 
-        // ~!~
 //        $locationProvider.html5Mode(true);
+        // ~!~
     }])
     .run(['$route', angular.noop]);

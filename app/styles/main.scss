@@ -1,29 +1,29 @@
-
 /*
 
 Table of contents
-1. sass definitions
-2. helper classes
-3. baseline styles
-4. layout
-5. custom styles
+  1. sass definitions
+  2. helper classes
+  3. baseline styles
+  4. layout
+  5. custom styles
 
 */
 
-
 @import "fonts";
 
+/* 1. sass definitions
+-----------------------------------*/
 
-/* 1. sass definitions */
-
-/* default overrides */
-$textColor: #777;
-$bodyBackground: #f0f0f0;
-$baseFontSize: 20px;
-$baseFontFamily: proxima_novalight, arial, tahoma, sans-serif;
-$baseLineHeight: 1.4;
-$linkColor: #555;
-$linkColorHover: #b72e33;
+/* default variables overrides */
+$text-color: #777;
+$headings-color: #777;
+$link-color: #555;
+$link-hover-color: #b72e33;
+$body-bg: #f0f0f0;
+$input-border-focus: #b72e33;
+$font-size-base: 20px;
+$font-family-base: proxima_novalight, arial, tahoma, sans-serif;
+$line-height-base: 1.5;
 
 /* import bootstrap main stylesheet */
 @import "bootstrap-sass/lib/bootstrap";
@@ -32,51 +32,106 @@ $linkColorHover: #b72e33;
 $darkGray: #444;
 $borderColor: #ccc;
 $softlayerRed: #b72e33;
-$layoutSideWidthPerc: $fluidGridColumnWidth + $fluidGridGutterWidth;
-$headerBorderHeight: 7px;
+$layoutSideWidthPerc: 100% / $grid-columns;
+$headerBorderWidth: 7px;
+$footerHeight: 60px;
+$playButtonWidth: 170px;
 
 /* mixins & functions */
-@mixin gs-calc($property, $args) {
+@mixin gsCalc($property, $args) {
   #{$property}: -webkit-calc(#{$args});
   #{$property}: -moz-calc(#{$args});
   #{$property}: calc(#{$args});
 }
 
-@mixin native-hidden {
+@mixin gsNativeHidden {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-@mixin grayscale($percentage) {
-  -webkit-filter: grayscale($percentage);
-  filter: grayscale($percentage);
+@mixin gsGrayscale() {
+  filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+  filter: gray;
+  -webkit-filter: grayscale(100%);
 }
 
+@mixin gsGrayscaleDisable() {
+  filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
+  -webkit-filter: grayscale(0%);
+}
 
-/* 2. helper classes */
+@mixin gsCircle($diameter) {
+  width: $diameter;
+  height: $diameter;
+  @include border-bottom-radius($diameter / 2);
+  @include border-top-radius($diameter / 2);
+}
 
+/* default rules overrides */
 
+input {
+  &[type="checkbox"] {
+    margin-top: 9px;
+  }
+}
 
-/* 3. baseline styles */
-
-h1,h2,h3,h4,h5,h6 {
-  text-align: center;
-  line-height: 2.4;
+label {
   font-weight: normal;
 }
+
+/* 2. helper classes
+-----------------------------------*/
+
+/* centering-in-the-unknown hack by chris coyier */
+.centered-box {
+  text-align: center;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
+  }
+  .centered {
+    display: inline-block;
+    vertical-align: middle;
+    //width: 300px;
+  }
+}
+
+
+/* 3. baseline styles
+-----------------------------------*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: .7em 0;
+  text-align: center;
+  font-weight: normal;
+}
+
 h1 {
   font-size: 160%;
 }
 
-
-
-/* 4. layout */
-
-* {
-  padding: 0;
-  margin: 0;
+h2 {
+  font-size: 140%;
 }
+
+h3 {
+  font-size: 130%;
+}
+
+[disabled="disabled"] {
+  @include opacity(.5);
+}
+
+
+/* 4. layout
+-----------------------------------*/
+
+/* holy grail layout */
 
 html, body, .full-height {
   overflow: hidden;
@@ -86,11 +141,13 @@ html, body, .full-height {
 #header {
   height: 130px;
 }
+
 #content {
   padding: 0 $layoutSideWidthPerc;
 }
+
 #fix {
-  height: 60px;
+  height: $footerHeight;
   clear: both;
 }
 
@@ -99,7 +156,8 @@ html, body, .full-height {
   min-width: 600px;
   min-height: 100%;
   height: 100%;
-  &[id] { /* invisible to IE6 */
+  &[id] {
+    /* invisible to IE6 */
     height: auto;
     overflow: hidden;
   }
@@ -115,19 +173,33 @@ html, body, .full-height {
 }
 
 #footer {
-  height: 60px;
-  margin-top: -60px;
-  &[id] { /* layer order, invisible to IE6 */
+  height: $footerHeight;
+  margin-top: $footerHeight * -1;
+  &[id] {
+    /* layer order, invisible to IE6 */
     z-index: 100;
     position: relative;
   }
 }
 
+/* custom layout adaptations */
 
-/* 5. custom styles */
+#content {
+  .main {
+    position: absolute;
+    top: 180px + $headerBorderWidth;
+    bottom: $footerHeight + 30px;
+    left: $layoutSideWidthPerc;
+    right: $layoutSideWidthPerc;
+  }
+}
+
+
+/* 5. custom styles
+-----------------------------------*/
 
 #header {
-  border-top: $headerBorderHeight solid $softlayerRed;
+  border-top: $headerBorderWidth solid $softlayerRed;
   background-color: $darkGray;
   .logo-box {
     width: 560px;
@@ -142,7 +214,7 @@ html, body, .full-height {
       &:not(:first-child):before {
         content: '\2022';
         position: absolute;
-        top: 75px;
+        top: 65px + $headerBorderWidth;
         left: -38px;
         line-height: 0;
         font-size: 30px;
@@ -161,27 +233,32 @@ html, body, .full-height {
 }
 
 #footer {
-  background-color: $textColor;
+  padding: 1em;
+  font-size: 12px;
+  background-color: $text-color;
+  * {
+    color: $borderColor;
+  }
 }
 
 .side {
   cursor: pointer;
-  @include opacity(60);
-  @include transition(all linear 0.1s);
+  @include opacity(.6);
+  @include transition(0.05s all 0 linear);
   &:hover {
-    @include opacity(100);
+    @include opacity(1);
   }
   &:after {
     position: absolute;
     z-index: 100;
-    @include gs-calc("top", "50% + 22px");
+    @include gsCalc("top", "50% + 22px");
     width: $layoutSideWidthPerc;
     height: 0;
     line-height: 0;
     text-align: center;
     font-size: 120px;
     font-family: arial;
-    color: #777;
+    color: $text-color;
   }
   &.left:after {
     left: 0;
@@ -217,19 +294,11 @@ html, body, .full-height {
     }
   }
   .main {
-    position: absolute;
-    top: 180px + $headerBorderHeight;
-    bottom: 90px;
-    left: $layoutSideWidthPerc;
-    right: $layoutSideWidthPerc;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     border: 1px solid #ccc;
     padding: 1em;
     background-color: #fff;
-
-    > section > h1 {
-      line-height: 3;
-    }
 
     /* view slide animation */
     &.ng-enter, &.ng-leave {
@@ -239,10 +308,10 @@ html, body, .full-height {
       @include opacity(0);
     }
     &.ng-enter.ng-enter-active {
-      @include opacity(100);
+      @include opacity(1);
     }
     &.ng-leave {
-      @include opacity(100);
+      @include opacity(1);
     }
     &.ng-leave.ng-leave-active {
       @include opacity(0);
@@ -274,51 +343,6 @@ html, body, .full-height {
   }
 }
 
-.recipe-list {
-  margin: 0;
-  text-align: center;
-
-  li {
-    display: inline-block;
-    margin: 0;
-    padding: 28px;
-    list-style-type: none;
-
-    label {
-      padding-top: 14px;
-      background-color: #fafafa;
-      border: 1px solid $borderColor;
-    }
-    .widget-img{
-      display: block;
-      width: 60px;
-      height: 60px;
-      margin: 30px 60px 50px;
-      outline: none;
-    }
-    .widget-selected{
-      opacity: 1;
-    }
-    .widget-unselected{
-      opacity: 0.2;
-    }
-//      @include native-hidden();
-//      @include opacity(70);
-//
-//      &:not(:checked) {
-//        @include grayscale(100%);
-//      }
-//      &:checked {
-//        //content: url('http://placekitten.com/100/120');
-//      }
-//      &:hover, &:checked {
-//        @include opacity(100);
-//      }
-
-  }
-}
-
-
 section {
 
   &.welcome {
@@ -326,14 +350,170 @@ section {
     margin: 0 auto;
   }
 
-  &.details {
+  &.recipes {
+
+    .recipe-list {
+      margin: 0;
+      text-align: center;
+
+      li {
+        display: inline-block;
+        margin: 30px;
+        padding: 0;
+        list-style-type: none;
+        border: 1px solid $borderColor;
+        background-color: #fafafa;
+
+        label, input {
+          cursor: pointer;
+        }
+        label {
+          margin: 0;
+          padding: 15px 0 5px;
+          img {
+            display: block;
+            width: 60px;
+            height: 60px;
+            margin: 20px 60px;
+            @include gsGrayscale();
+            @include opacity(.7);
+          }
+          input[type="radio"] {
+            position: absolute;
+            visibility: hidden;
+            @include gsNativeHidden();
+            outline: 0 none;
+
+            &:checked ~ img {
+              @include gsGrayscaleDisable();
+            }
+            &:hover ~ img,
+            &:checked ~ img {
+              @include opacity(1);
+            }
+          }
+          .video-link {
+            padding: 0 15px;
+            height: 30px;
+            a {
+              float: right;
+              line-height: 30px;
+              font-size: .8em;
+              &:after {
+                content: ' \2197';
+                line-height: 25px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.credentials {
     form {
-      width: 500px;
-      margin: 0 auto;
-      input {
-        min-height: 50px;
-        height: 50px;
-        margin: 10px 0 20px;
+      min-width: 300px;
+      max-width: 600px;
+      width: 50%;
+      margin: 30px auto;
+
+      input.ng-dirty.ng-invalid {
+        background-color: #ff3a3c;
+        @include opacity(.3);
+      }
+    }
+  }
+
+  &.summary {
+
+    .widget {
+      position: relative;
+      height: 300px;
+      margin: 40px 0;
+
+      [class*="row"],
+      [class*="col-"] {
+        height: 100%;
+      }
+
+      .play-box {
+        position: absolute;
+        @include gsCalc('top', '50% - ' + $playButtonWidth / 2);
+        @include gsCalc('left', '50% - ' + $playButtonWidth / 2);
+        z-index: 9999;
+
+        @include transition(.1s opacity linear);
+
+        @include opacity(.2);
+
+        label.play-button {
+          position: relative;
+
+          input[type="checkbox"] {
+            position: absolute;
+            visibility: hidden;
+            @include gsNativeHidden();
+            outline: 0 none;
+
+            ~ div {
+              border: $headerBorderWidth solid $text-color;
+              background-color: $body-bg;
+              cursor: pointer;
+              display: block;
+              overflow: hidden;
+              @include gsCircle($playButtonWidth);
+
+              &:after {
+                content: '';
+                position: absolute;
+                left: $playButtonWidth * .40;
+                top: $playButtonWidth * .18;
+                display: block;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: $playButtonWidth * .330 $playButtonWidth * .350;
+                border-color: transparent transparent transparent $text-color;
+              }
+            }
+            &:active ~ div:hover,
+            &:checked ~ div:hover,
+            &:checked ~ div {
+              border-color: $softlayerRed;
+            }
+            &:active ~ div:hover:after,
+            &:checked ~ div:hover:after,
+            &:checked ~ div:after {
+              border-left-color: $softlayerRed;
+            }
+            ~ div:hover {
+              border-color: $darkGray;
+            }
+            ~ div:hover:after {
+              border-left-color: $darkGray;
+            }
+            &:active ~ div {
+              margin-top: $playButtonWidth * .015;
+              margin-left: $playButtonWidth * .015;
+              @include gsCircle($playButtonWidth * .970);
+            }
+            &:active ~ div:hover:after {
+              left: $playButtonWidth * .400 * 1.015;
+              top: $playButtonWidth * .180 * 1.110;
+              border-width: $playButtonWidth * .330 * .942 $playButtonWidth * .350 * .942;
+            }
+          }
+        }
+      }
+      .console {
+        height: 100%;
+        margin: 0 auto;
+        border: $headerBorderWidth solid $text-color;
+        background-color: $body-bg;
+
+        &:hover .play-box {
+          @include opacity(1);
+        }
       }
     }
   }

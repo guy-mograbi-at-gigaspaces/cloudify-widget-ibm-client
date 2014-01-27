@@ -43,6 +43,7 @@
 var publicConfiguration = {
     widgetServer: "ibmwidget.gsdev.info",
     widgetServerProtocol:"http",
+    widgetServerPort:null,
     mixpanelCode: null,
     googleAnalyticsCode: null,
     googleAnalyticsDomain: null

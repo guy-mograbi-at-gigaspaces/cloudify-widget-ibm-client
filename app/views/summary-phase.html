@@ -1,0 +1,18 @@
+<section ng-controller="SummaryPhaseCtrl" class="summary">
+
+    <h1 ng-show="ready()">Let's play!</h1>
+
+    <h1 ng-hide="ready()">{{ "Wait, some details are missing, go back and complete the wizard!" }}</h1>
+
+    <!--
+        <p>
+            widget: {{ model.widget.productName }}
+        </p>
+        <p>
+            credentials: {{ model.credentials }}
+        </p>
+    -->
+    <div widget selected-widget="model.widget" credentials="model.credentials"></div>
+    <!--<div widget selected-widget="widget" upid="model.getUpid"></div>-->
+    <!--<div widget id="widgetSkin" selected-widget="selectedWidget"></div>-->
+</section>

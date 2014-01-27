@@ -147,6 +147,8 @@ app.use(function(err, req, res, next) {
  * Routes
  */
 
+app.get('/backend/conf', conf.sendPublicConfiguration);
+
 app.get('/backend/widgetslist', function(request, response, next) {
 
     var requestData = {};
@@ -154,6 +156,7 @@ app.get('/backend/widgetslist', function(request, response, next) {
     requestData.response = response;
     requestData.options = {
         hostname: conf.widgetServer,
+        port: conf.widgetServerPort,
         path: '/api/user/'+ conf.userId +'/widgets?authToken=' + conf.authToken,
         method: 'GET'
     };
@@ -204,6 +207,7 @@ function createRequest(requestData, _callback ) {
 
     var onError = function(e) {
         console.log('problem with request: ' + e.message);
+//        console.log(requestData.request)
         requestData.response.send(500);
     };
 

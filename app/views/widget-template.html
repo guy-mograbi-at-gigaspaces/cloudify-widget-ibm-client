@@ -1,0 +1,39 @@
+<div ng-show="selectedWidget" class="widget">
+
+    <div class="row">
+
+        <div class="col-md-10 col-md-offset-1">
+
+            <!-- console -->
+            <div class="console">
+
+                <div class="play-box">
+
+                    <!-- play button -->
+                    <label class="play-button">
+                        <input type="checkbox"
+                               ng-class="{ 'play': !!isPlaying(), 'stop': !isPlaying() }"
+                               ng-change="playButtonAction()"
+                               ng-model="playButtonState"
+                               ng-true-value="play"
+                               ng-false-value="stop" />
+                        <div></div>
+                    </label>
+                </div>
+                <ul>
+                    <li ng-repeat="msg in widgetLog" ng-bind-html-unsafe="msg"></li>
+                </ul>
+            </div>
+
+            <ul class="links" ng-show="isPlaying()" id="log">
+                <li id="manageApp" ng-show="manageUrl != null"><a href="{{manageUrl}}" target="_blank">Manage your app</a></li>
+                <li ng-show="consoleUrl != null"><div class="consoleManageArrow"></div><a href="{{consoleUrl}}" target="_blank">{{selectedWidget.productName}} Console</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div style="clear: both;"></div>
+    <iframe id="iframe" class="hidden" ng-src="{{ widgetIframeSrc }}"></iframe>
+</div>
+

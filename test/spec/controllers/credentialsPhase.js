@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: CredentialsphaseCtrl', function () {
 
   // load the controller's module
   beforeEach(module('cloudifyWidgetIbmClientApp'));
 
-  var MainCtrl,
+  var CredentialsphaseCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    CredentialsphaseCtrl = $controller('CredentialsphaseCtrl', {
       $scope: scope
     });
   }));
