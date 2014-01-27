@@ -4,7 +4,10 @@
         <!-- TODO implement with checkboxes with altering images (grayscale/color) -->
         <li ng-repeat="widget in data.widgetsList">
             <label>{{ widget.productName }}
-                <input type="radio" name="recipe-icons-group" ng-class="widgetImage( widget.productName )" />
+                <!--img ng-src="http://ibmwidget.gsdev.info/widget/icon?apiKey={{widget.apiKey}}"-->
+                <!--input type="radio" name="recipe-icons-group"  style="content:url('http://ibmwidget.gsdev.info/widget/icon?apiKey={{widget.apiKey}}')" /-->
+                <!--$('img.widget-selected').toggleClass('widget-unselected widget-selected');$(this).toggleClass('widget-selected widget-unselected');-->
+                <img ng-class="selectedStyle(widget)" class="widget-img" ng-src="http://ibmwidget.gsdev.info/widget/icon?apiKey={{widget.apiKey}}" ng-click="selectWidget(widget)"/>
             </label>
         </li>
     </ul>

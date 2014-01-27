@@ -14,5 +14,13 @@ angular.module('cloudifyWidgetIbmClientApp')
         $scope.widgetImage = function (productName) {
             return recipeNameToClassnameMap[productName] || '';
         };
-        
+
+        $scope.selectWidget = function(widget){
+            $scope.selectedWidget = widget;
+        };
+
+        $scope.selectedStyle = function(widget){
+           return $scope.selectedWidget == widget ? "widget-selected" : "widget-unselected";
+        }
+
     }]);

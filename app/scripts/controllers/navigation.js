@@ -42,7 +42,7 @@ angular.module('cloudifyWidgetIbmClientApp')
                     $scope.data.step--;
                     $scope.data.breadcrumb.pop();
                 }
-                return $location.path('step/' + $scope.data.step);
+                return $location.path('/step/' + $scope.data.step);
             };
 
             $scope.prev = function () {

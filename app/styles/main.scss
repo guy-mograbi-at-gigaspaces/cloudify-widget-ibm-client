@@ -289,60 +289,32 @@ html, body, .full-height {
       background-color: #fafafa;
       border: 1px solid $borderColor;
     }
-    input[type="radio"] {
-      content: '';
+    .widget-img{
       display: block;
       width: 60px;
       height: 60px;
       margin: 30px 60px 50px;
       outline: none;
-      @include native-hidden();
-      @include opacity(70);
-
-      &:not(:checked) {
-        @include grayscale(100%);
-      }
-      &:checked {
-        //content: url('http://placekitten.com/100/120');
-      }
-      &:hover, &:checked {
-        @include opacity(100);
-      }
-
-      &.cassandra {
-        content: url('../images/cassandra.jpg');
-      }
-      &.couchbase {
-        content: url('../images/couchbase.png');
-      }
-      &.drupal {
-        content: url('../images/drupal.jpg');
-      }
-      &.elastic-search {
-        content: url('../images/elastic-search.jpg');
-      }
-      &.jboss {
-        content: url('../images/jboss.png');
-      }
-      &.memcached {
-        content: url('../images/memcached.png');
-      }
-      &.mongodb {
-        content: url('../images/mongodb.png');
-      }
-      &.mysql {
-        content: url('../images/mysql.png');
-      }
-      &.petclinic {
-        content: url('../images/petclinic.png');
-      }
-      &.play {
-        content: url('../images/play.png');
-      }
-      &.vertx {
-        content: url('../images/vertx.jpg');
-      }
     }
+    .widget-selected{
+      opacity: 1;
+    }
+    .widget-unselected{
+      opacity: 0.2;
+    }
+//      @include native-hidden();
+//      @include opacity(70);
+//
+//      &:not(:checked) {
+//        @include grayscale(100%);
+//      }
+//      &:checked {
+//        //content: url('http://placekitten.com/100/120');
+//      }
+//      &:hover, &:checked {
+//        @include opacity(100);
+//      }
+
   }
 }
 

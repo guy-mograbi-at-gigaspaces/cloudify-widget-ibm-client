@@ -41,7 +41,7 @@
 
 
 var publicConfiguration = {
-    widgetServer: "launch.cloudifysource.org",
+    widgetServer: "ibmwidget.gsdev.info",
     widgetServerProtocol:"http",
     mixpanelCode: null,
     googleAnalyticsCode: null,
