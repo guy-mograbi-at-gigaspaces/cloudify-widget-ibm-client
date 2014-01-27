@@ -5,7 +5,7 @@ angular.module('cloudifyWidgetIbmClientApp')
 
         var _widget = null;
 
-        var _credentials = null;
+        var _credentials = {};
 
         return {
 
